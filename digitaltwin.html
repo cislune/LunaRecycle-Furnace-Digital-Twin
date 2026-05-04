@@ -1046,11 +1046,30 @@ m_{\mathrm{nonmag,bin}} &= m_{\mathrm{feed}} - m_{\mathrm{mag,bin}}
             <input id="mb_magRecoveryPct" type="number" value="35">
           </div>
 
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Downstream test stream</label>
+              <div class="selectWrap">
+                <select id="mb_streamForTests">
+                  <option value="magnetic" selected>Magnetic-bin concentrate</option>
+                  <option value="nonmagnetic">Non-magnetic-bin reject/tailings</option>
+                  <option value="manual">Manual regolith basis / no beneficiation stream</option>
+                </select>
+              </div>
+              <div class="mini">After beneficiation, choose which separated stream to send into the downstream FactSage / steel product workflow.</div>
+            </div>
+            <div>
+              <label>Selected stream behavior</label>
+              <input disabled value="Magnetic and non-magnetic portions can be tested separately">
+              <div class="mini">The selected stream updates the regolith mass basis and estimated oxide chemistry used downstream.</div>
+            </div>
+          </div>
+
           <div class="checkRow" style="margin-top:14px;">
             <input id="mb_forwardToP2" type="checkbox" checked>
             <div class="checkText">
-              <strong>Use beneficiated concentrate as the Part 3 pyrolysis feed basis</strong>
-              (this updates the regolith mass basis used in the Part 3 pyrolysis workflow).
+              <strong>Use selected beneficiation stream as the downstream test basis</strong>
+              (choose magnetic-bin or non-magnetic-bin above, then run steel / product tests on that separated portion).
             </div>
           </div>
 
@@ -1062,11 +1081,11 @@ m_{\mathrm{nonmag,bin}} &= m_{\mathrm{feed}} - m_{\mathrm{mag,bin}}
             <div class="cardHeader">
               <div>
                 <h2>Beneficiation output</h2>
-                <div class="desc">Reports how much concentrate is recovered, how much iron-rich material is retained, and whether the upgraded product is favorable for downstream carbothermal reduction to steel.</div>
+                <div class="desc">Reports how much concentrate is recovered, how much iron-rich material is retained, and the quality of each separated stream for downstream product testing.</div>
               </div>
             </div>
             <div class="content">
-              <pre id="mb_out">Run the beneficiation step to predict magnetic-bin and non-magnetic-bin outputs for downstream carbothermal reduction.</pre>
+              <pre id="mb_out">Run the beneficiation step to predict magnetic-bin and non-magnetic-bin outputs, then choose which stream to test downstream.</pre>
             </div>
           </div>
         </div>
@@ -1098,7 +1117,7 @@ m_{\mathrm{nonmag,bin}} &= m_{\mathrm{feed}} - m_{\mathrm{mag,bin}}
         <summary>
           <div class="sumLeft">
             <div class="sumTitle">Feedstock Presets</div>
-            <div class="sumSub">Wet mass → remove inert + moisture fractions → dry reactive mass.</div>
+            <div class="sumSub">Single feedstock or mixed feedstock masses → remove inert + moisture fractions → dry reactive mass.</div>
           </div>
           <div class="chev"></div>
         </summary>
@@ -1128,10 +1147,11 @@ m_{\mathrm{dry}} &= (1 - f_{\mathrm{moist}})\, m_{\mathrm{reactive}}
               <label>Feedstock Preset</label>
               <div class="selectWrap">
                 <select id="materialPreset">
-                  <option value="cellulose">Cellulosic organic feedstock</option>
-                  <option value="nitrile" selected>Nitrile rubber / NBR waste</option>
-                  <option value="polyolefin">Polyolefin plastic waste</option>
-                  <option value="laminate">Metallized polymer laminate</option>
+                  <option value="cellulose">Cotton T-shirt</option>
+                  <option value="nitrile" selected>Nitrile Gloves</option>
+                  <option value="polyolefin">Polyethylene Bag</option>
+                  <option value="laminate">Foil Coffee Pouch</option>
+                  <option value="blend">Blend multiple feedstocks</option>
                   <option value="custom">Custom feedstock</option>
                 </select>
               </div>
@@ -1177,6 +1197,49 @@ m_{\mathrm{dry}} &= (1 - f_{\mathrm{moist}})\, m_{\mathrm{reactive}}
                   </div>
                   <div class="mini">If “No”, the dry mass input is used as-is.</div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="blendPresetBlock" class="card hide" style="margin-top:14px; box-shadow:none;">
+            <div class="cardHeader">
+              <div>
+                <h2>Mixed feedstock inputs</h2>
+                <div class="desc">Enter as-received mass for each organic feedstock. The model mass-normalizes each component, then computes blended kinetics and product yields by dry-reactive-mass weighting.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill">Mass blend</div>
+                <div class="pill">Weighted kinetics</div>
+                <div class="pill">Weighted yields</div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="grid2">
+                <div>
+                  <label>Cotton T-shirt [g]</label>
+                  <input id="blend_celluloseMass" type="number" value="0" step="0.001" min="0">
+                  <div class="mini">Uses Cotton T-shirt preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+                <div>
+                  <label>Nitrile Gloves [g]</label>
+                  <input id="blend_nitrileMass" type="number" value="200" step="0.001" min="0">
+                  <div class="mini">Uses Nitrile Gloves preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+              </div>
+              <div class="grid2" style="margin-top:14px;">
+                <div>
+                  <label>Polyethylene Bag [g]</label>
+                  <input id="blend_polyolefinMass" type="number" value="0" step="0.001" min="0">
+                  <div class="mini">Uses Polyethylene Bag preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+                <div>
+                  <label>Foil Coffee Pouch [g]</label>
+                  <input id="blend_laminateMass" type="number" value="0" step="0.001" min="0">
+                  <div class="mini">Uses Foil Coffee Pouch preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+              </div>
+              <div class="mini" style="margin-top:14px;">
+                In blend mode, the single as-received input mass is ignored and the dry reactive mass field is auto-filled from the feedstock mixture.
               </div>
             </div>
           </div>
@@ -1989,7 +2052,7 @@ m_{\mathrm{char,ox}} &= m_{\mathrm{char,base}}\;\exp\!\left(-k_{\mathrm{ox}}\,t_
 const PRESETS = {
 
   cellulose: {
-    name: "Cellulosic organic feedstock",
+    name: "Cotton T-shirt",
     inertFrac: 0.00,
     moistPct: 5.0,
     A1: 5.0e9,
@@ -2000,7 +2063,7 @@ const PRESETS = {
   },
 
   nitrile: {
-    name: "Nitrile rubber / NBR waste",
+    name: "Nitrile Gloves",
     inertFrac: 0.00,
     moistPct: 2.0,
     A1: 8.0e9,
@@ -2011,7 +2074,7 @@ const PRESETS = {
   },
 
   polyolefin: {
-    name: "Polyolefin plastic waste",
+    name: "Polyethylene Bag",
     inertFrac: 0.00,
     moistPct: 0.0,
     A1: 3.0e10,
@@ -2022,7 +2085,7 @@ const PRESETS = {
   },
 
   laminate: {
-    name: "Metallized polymer laminate",
+    name: "Foil Coffee Pouch",
     inertFrac: 0.24,
     moistPct: 3.0,
     A1: 6.0e9,
@@ -2030,6 +2093,17 @@ const PRESETS = {
     Ychar: 0.20,
     Ycond: 0.30,
     Ygas:  0.50
+  },
+
+  blend: {
+    name: "Mixed organic feedstock blend",
+    inertFrac: 0.0,
+    moistPct: 0.0,
+    A1: 5.0e9,
+    Ea1: 190000,
+    Ychar: 0.18,
+    Ycond: 0.30,
+    Ygas:  0.52
   },
 
   custom: {
@@ -2131,7 +2205,7 @@ const SIMULANT_OXIDES = {
   const pyroState = { ran:false, feedstockName:"", mChar:0, mDry:0, alpha:0, mCond:0, mGas:0 };
   const outageState = { ran:false, mChar:0, alpha:0, mCond:0, mGas:0, Tpeak:NaN, t500:NaN, t700:NaN };
   const airLeakState = { ran:false, use:false, baseSource:"part1", Tstar:500, kox:0, mCharOx:NaN, dChar:NaN, tHot:NaN };
-  const benefState = { ran:false, use:false, mFeed:NaN, mConc:NaN, feFeedPct:NaN, feConcPct:NaN, feRichMass:NaN, upgrade:NaN };
+  const benefState = { ran:false, use:false, stream:"magnetic", mFeed:NaN, mConc:NaN, mNonMagBin:NaN, feFeedPct:NaN, feConcPct:NaN, nonMagMagPct:NaN, feRichMass:NaN, mMagRemaining:NaN, mGangueEntrained:NaN, mGangueRejected:NaN, upgrade:NaN };
   const fmt = (x, d=6) => Number.isFinite(x) ? x.toFixed(d) : String(x);
 
   const LS_KEY = "digitwinpyro_factsage_runs_v1";
@@ -2271,6 +2345,12 @@ const SIMULANT_OXIDES = {
     const customInertFrac = document.getElementById("customInertFrac");
     const customAutoNormalize = document.getElementById("customAutoNormalize");
 
+    const blendPresetBlock = document.getElementById("blendPresetBlock");
+    const blend_celluloseMass = document.getElementById("blend_celluloseMass");
+    const blend_nitrileMass = document.getElementById("blend_nitrileMass");
+    const blend_polyolefinMass = document.getElementById("blend_polyolefinMass");
+    const blend_laminateMass = document.getElementById("blend_laminateMass");
+
     const A1input    = document.getElementById("A1");
     const Ea1input   = document.getElementById("Ea1");
     const massInput  = document.getElementById("mass");
@@ -2323,6 +2403,7 @@ const SIMULANT_OXIDES = {
     const mb_wrapDeg = document.getElementById("mb_wrapDeg");
     const mb_passes = document.getElementById("mb_passes");
     const mb_forwardToP2 = document.getElementById("mb_forwardToP2");
+    const mb_streamForTests = document.getElementById("mb_streamForTests");
     const mb_runBtn = document.getElementById("mb_runBtn");
     const mb_out = document.getElementById("mb_out");
 
@@ -2587,7 +2668,84 @@ Forward to Parts 2–3:   ${airLeakState.use ? "YES" : "NO"}
       if (atmosphereSummary) atmosphereSummary.value = summary;
     }
 
+    function componentDryMass(presetKey, wetMassValue){
+      const p = PRESETS[presetKey];
+      const mWet = Number(wetMassValue || 0);
+      if (!(mWet >= 0)) throw new Error(`${p.name} blend mass must be >= 0 g.`);
+      const inert = clamp(Number(p.inertFrac || 0), 0, 0.99);
+      const moist = clamp(Number(p.moistPct || 0) / 100.0, 0, 0.99);
+      const mReactive = (1 - inert) * mWet;
+      const mDry = (1 - moist) * mReactive;
+      return { key:presetKey, name:p.name, mWet, inert, moist, mReactive, mDry, preset:p };
+    }
+
+    function computeBlendFeedstock(){
+      const components = [
+        componentDryMass("cellulose", blend_celluloseMass ? blend_celluloseMass.value : 0),
+        componentDryMass("nitrile", blend_nitrileMass ? blend_nitrileMass.value : 0),
+        componentDryMass("polyolefin", blend_polyolefinMass ? blend_polyolefinMass.value : 0),
+        componentDryMass("laminate", blend_laminateMass ? blend_laminateMass.value : 0)
+      ];
+
+      const totalWet = components.reduce((a,c)=>a+c.mWet, 0);
+      const totalReactive = components.reduce((a,c)=>a+c.mReactive, 0);
+      const totalDry = components.reduce((a,c)=>a+c.mDry, 0);
+
+      if (!(totalWet > 0)) throw new Error("At least one mixed feedstock mass must be > 0 g.");
+      if (!(totalDry > 0)) throw new Error("Mixed dry reactive mass must be > 0 g.");
+
+      const wAvg = (field) => components.reduce((a,c)=>a + c.mDry * Number(c.preset[field]), 0) / totalDry;
+
+      const blendA1 = wAvg("A1");
+      const blendEa1 = wAvg("Ea1");
+      const blendYchar = wAvg("Ychar");
+      const blendYcond = wAvg("Ycond");
+      const blendYgas = wAvg("Ygas");
+
+      return { components, totalWet, totalReactive, totalDry, blendA1, blendEa1, blendYchar, blendYcond, blendYgas };
+    }
+
     function computeDryReactiveMass(key){
+      if (key === "blend"){
+        try{
+          const blend = computeBlendFeedstock();
+
+          A1input.value = blend.blendA1.toExponential(6);
+          Ea1input.value = blend.blendEa1.toFixed(0);
+          yCharInput.value = blend.blendYchar.toFixed(6);
+          yCondInput.value = blend.blendYcond.toFixed(6);
+          yGasInput.value  = blend.blendYgas.toFixed(6);
+          massInput.value = String(blend.totalDry);
+          massInput.disabled = true;
+          updateYieldSum();
+
+          const lines = [];
+          lines.push("Preset: Mixed organic feedstock blend");
+          lines.push(`Total as-received mixed mass:     ${blend.totalWet.toFixed(3)} g`);
+          lines.push(`Total wet reactive mass:          ${blend.totalReactive.toFixed(3)} g`);
+          lines.push(`Total dry reactive mass used:     ${blend.totalDry.toFixed(3)} g`);
+          lines.push("");
+          lines.push("Component mass balance:");
+          for (const c of blend.components){
+            if (c.mWet <= 0) continue;
+            const fracDry = 100.0 * c.mDry / blend.totalDry;
+            lines.push(`  ${c.name}`);
+            lines.push(`    as-received: ${c.mWet.toFixed(3)} g | dry reactive: ${c.mDry.toFixed(3)} g | dry-basis share: ${fracDry.toFixed(2)} wt%`);
+          }
+          lines.push("");
+          lines.push("Blended pyrolysis parameters (dry-reactive-mass weighted):");
+          lines.push(`  A1 [s^-1]:        ${blend.blendA1.toExponential(6)}`);
+          lines.push(`  Ea [J/mol]:       ${blend.blendEa1.toFixed(0)}`);
+          lines.push(`  Char yield [-]:   ${blend.blendYchar.toFixed(6)}`);
+          lines.push(`  Cond. yield [-]:  ${blend.blendYcond.toFixed(6)}`);
+          lines.push(`  Gas yield [-]:    ${blend.blendYgas.toFixed(6)}`);
+          massSummary.textContent = lines.join("\n");
+        } catch(e){
+          massSummary.textContent = `ERROR: ${e.message}`;
+        }
+        return;
+      }
+
       const mWet = Number(wetMass.value);
       if (!(mWet > 0)){
         massSummary.textContent = "Wet input mass must be > 0.";
@@ -2643,8 +2801,19 @@ Dry reactive mass used:       ${mDry.toFixed(3)} g`;
 function applyPreset(){
   const key = materialPreset.value;
   const isCustom = (key === "custom");
-  customPresetBlock.classList.toggle("hide", !isCustom);
+  const isBlend = (key === "blend");
 
+  customPresetBlock.classList.toggle("hide", !isCustom);
+  if (blendPresetBlock) blendPresetBlock.classList.toggle("hide", !isBlend);
+
+  if (isBlend){
+    wetMass.disabled = true;
+    massInput.disabled = true;
+    computeDryReactiveMass("blend");
+    return;
+  }
+
+  wetMass.disabled = false;
   const p = PRESETS[key];
 
   if (!isCustom){
@@ -2663,7 +2832,6 @@ function applyPreset(){
   computeDryReactiveMass(key);
 }
 
-
 function getEffectiveCharMass(){
   // Part 5 can optionally override the char used downstream
   if (airLeakState.ran && airLeakState.use && Number.isFinite(airLeakState.mCharOx)) return airLeakState.mCharOx;
@@ -2673,16 +2841,41 @@ function getEffectiveCharMass(){
   return NaN;
 }
 
+    function getSelectedBeneficiationStream(){
+      const mode = mb_streamForTests ? mb_streamForTests.value : "magnetic";
+      if (!benefState.ran || !benefState.use || mode === "manual") return null;
+      if (mode === "nonmagnetic"){
+        return {
+          key: "nonmagnetic",
+          label: "Non-magnetic-bin reject/tailings",
+          mass: benefState.mNonMagBin,
+          magneticMass: benefState.mMagRemaining,
+          gangueMass: benefState.mGangueRejected,
+          magneticPct: benefState.nonMagMagPct
+        };
+      }
+      return {
+        key: "magnetic",
+        label: "Magnetic-bin concentrate",
+        mass: benefState.mConc,
+        magneticMass: benefState.feRichMass,
+        gangueMass: benefState.mGangueEntrained,
+        magneticPct: benefState.feConcPct
+      };
+    }
+
     function getEffectiveRegolithBasis(){
-      if (benefState.ran && benefState.use && Number.isFinite(benefState.mConc)) return benefState.mConc;
+      const stream = getSelectedBeneficiationStream();
+      if (stream && Number.isFinite(stream.mass)) return stream.mass;
       return Number(p2_regolithBasis.value);
     }
 
     function syncBeneficiationToPart2(){
       if (!(mb_regolithMass && p2_regolithBasis)) return;
-      if (benefState.ran && benefState.use && Number.isFinite(benefState.mConc)) {
-        p2_regolithBasis.value = benefState.mConc.toFixed(3);
-      } else if (!benefState.ran) {
+      const stream = getSelectedBeneficiationStream();
+      if (stream && Number.isFinite(stream.mass)) {
+        p2_regolithBasis.value = stream.mass.toFixed(3);
+      } else if (!benefState.ran || (mb_streamForTests && mb_streamForTests.value === "manual")) {
         p2_regolithBasis.value = Number(mb_regolithMass.value || 0).toFixed(3);
       }
     }
@@ -2743,8 +2936,12 @@ function getEffectiveCharMass(){
 
         const mMagBin = clamp(mMagCaptured + mGangueEntrained, 0, mFeed);
         const mNonMagBin = Math.max(0, mFeed - mMagBin);
+        const mMagRemaining = Math.max(0, mMagAvailable - mMagCaptured);
+        const mGangueRejected = Math.max(0, mNonMagBin - mMagRemaining);
         const magBinMagPct = mMagBin > 0 ? 100.0 * mMagCaptured / mMagBin : 0;
         const magBinGanguePct = mMagBin > 0 ? 100.0 * mGangueEntrained / mMagBin : 0;
+        const nonMagBinMagPct = mNonMagBin > 0 ? 100.0 * mMagRemaining / mNonMagBin : 0;
+        const nonMagBinGanguePct = mNonMagBin > 0 ? 100.0 * mGangueRejected / mNonMagBin : 0;
         const recoveryPct = mMagAvailable > 0 ? 100.0 * mMagCaptured / mMagAvailable : 0;
         const massRecoveryPct = 100.0 * mMagBin / mFeed;
         const upgrade = wMagPct > 0 ? (magBinMagPct / wMagPct) : 0;
@@ -2757,11 +2954,17 @@ function getEffectiveCharMass(){
 
         benefState.ran = true;
         benefState.use = Boolean(mb_forwardToP2.checked);
+        benefState.stream = mb_streamForTests ? mb_streamForTests.value : "magnetic";
         benefState.mFeed = mFeed;
         benefState.mConc = mMagBin;
+        benefState.mNonMagBin = mNonMagBin;
         benefState.feFeedPct = wMagPct;
         benefState.feConcPct = magBinMagPct;
+        benefState.nonMagMagPct = nonMagBinMagPct;
         benefState.feRichMass = mMagCaptured;
+        benefState.mMagRemaining = mMagRemaining;
+        benefState.mGangueEntrained = mGangueEntrained;
+        benefState.mGangueRejected = mGangueRejected;
         benefState.upgrade = upgrade;
 
         mb_out.textContent = `================ N52 MAGNETIC DRUM BENEFICIATION ================
@@ -2781,22 +2984,31 @@ Predicted separator variables
   Total eta_cap [-]:              ${etaCap.toFixed(4)}
   Magnetic material available [g]: ${mMagAvailable.toFixed(3)}
 
-Predicted outputs
+Predicted separated streams
   Magnetic-bin output [g]:        ${mMagBin.toFixed(3)}
   Non-magnetic-bin output [g]:    ${mNonMagBin.toFixed(3)}
   Captured magnetic material [g]: ${mMagCaptured.toFixed(3)}
+  Magnetic material left in non-magnetic bin [g]: ${mMagRemaining.toFixed(3)}
   Entrained gangue in magnetic bin [g]: ${mGangueEntrained.toFixed(3)}
+  Rejected gangue in non-magnetic bin [g]: ${mGangueRejected.toFixed(3)}
 
-Product quality
+Magnetic-bin quality
   Magnetic recovery [%]:          ${recoveryPct.toFixed(2)}
   Magnetic-bin mass recovery [%]: ${massRecoveryPct.toFixed(2)}
   Magnetic-bin magnetic content [wt%]: ${magBinMagPct.toFixed(2)}
   Magnetic-bin gangue content [wt%]:   ${magBinGanguePct.toFixed(2)}
   Upgrade factor [-]:             ${upgrade.toFixed(3)}
 
+Non-magnetic-bin quality
+  Non-magnetic-bin magnetic content [wt%]: ${nonMagBinMagPct.toFixed(2)}
+  Non-magnetic-bin gangue content [wt%]:   ${nonMagBinGanguePct.toFixed(2)}
+
+Downstream test basis
+  Selected stream: ${getProcessBasisLabel()}
+  ${benefState.use ? `Downstream workflow regolith basis updated to selected stream mass: ${Number(getEffectiveRegolithBasis()).toFixed(3)} g.` : "No beneficiation stream forwarded; downstream workflow keeps its manually entered regolith basis."}
+
 Downstream interpretation
   ${usefulness}
-  ${benefState.use ? `Steel workflow regolith basis updated to predicted magnetic-bin output: ${mMagBin.toFixed(3)} g.` : "Predicted magnetic-bin output not forwarded; steel workflow keeps its manually entered regolith basis."}
 =================================================================`;
 
         syncBeneficiationToPart2();
@@ -2832,6 +3044,38 @@ function getOxideObj(){
     P2O5:  Number(ox_P2O5.value),
     Cr2O3: Number(ox_Cr2O3.value),
   };
+}
+
+function getEffectiveOxideObjForProcess(){
+  const base = getOxideObj();
+  const stream = getSelectedBeneficiationStream();
+  if (!stream) return base;
+
+  const magneticKeys = ["FeO", "Fe2O3", "TiO2"];
+  const magneticSum = magneticKeys.reduce((a,k)=>a + Number(base[k] || 0), 0);
+  const gangueKeys = Object.keys(base).filter(k => !magneticKeys.includes(k));
+  const gangueSum = gangueKeys.reduce((a,k)=>a + Number(base[k] || 0), 0);
+
+  const mStream = Number(stream.mass);
+  const mMag = Math.max(0, Number(stream.magneticMass || 0));
+  const mGangue = Math.max(0, Number(stream.gangueMass || 0));
+  if (!(mStream > 0)) return base;
+
+  const out = {};
+  for (const k of magneticKeys){
+    const share = magneticSum > 0 ? Number(base[k] || 0) / magneticSum : 0;
+    out[k] = 100.0 * (mMag * share) / mStream;
+  }
+  for (const k of gangueKeys){
+    const share = gangueSum > 0 ? Number(base[k] || 0) / gangueSum : 0;
+    out[k] = 100.0 * (mGangue * share) / mStream;
+  }
+  return out;
+}
+
+function getProcessBasisLabel(){
+  const stream = getSelectedBeneficiationStream();
+  return stream ? stream.label : "Manual / unbeneficiated regolith basis";
 }
 
 function updateOxideSum(){
@@ -2972,9 +3216,22 @@ function setOxideTableFromPreset(key){
       setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
     }
 
+    function getBlendFeedstockName(){
+      if (materialPreset.value !== "blend") return PRESETS[materialPreset.value]?.name || "Unknown";
+      try{
+        const blend = computeBlendFeedstock();
+        const active = blend.components
+          .filter(c => c.mWet > 0)
+          .map(c => `${c.name} ${c.mWet.toFixed(1)} g`);
+        return active.length ? `Mixed feedstock blend (${active.join(" + ")})` : "Mixed feedstock blend";
+      } catch {
+        return "Mixed feedstock blend";
+      }
+    }
+
     function getInputsForRun(){
       const presetKey = materialPreset.value;
-      const feedstockName = PRESETS[presetKey]?.name || "Unknown";
+      const feedstockName = presetKey === "blend" ? getBlendFeedstockName() : (PRESETS[presetKey]?.name || "Unknown");
 
       const A1   = Number(A1input.value);
       const Ea1  = Number(Ea1input.value);
@@ -3242,9 +3499,9 @@ Time ≥700°C [s]:         ${Math.round(res.t700)}
       }
 
       const simKey = simulantPreset.value;
-      const simName = simKey || "Simulant";
+      const simName = `${simKey || "Simulant"} | ${getProcessBasisLabel()}`;
 
-      const basisReg = Number(p2_regolithBasis.value);
+      const basisReg = Number(getEffectiveRegolithBasis());
       const fC = Number(p2_fCchar.value);
       const cMult = Number(p2_cMult.value);
       const Tc = Number(p2_Tc.value);
@@ -3254,8 +3511,9 @@ Time ≥700°C [s]:         ${Math.round(res.t700)}
       if (!(fC > 0 && fC <= 1)) { fs_output.value = "ERROR: char carbon fraction must be in (0,1]"; return; }
       if (!(cMult > 0)) { fs_output.value = "ERROR: carbon multiplier must be > 0"; return; }
 
-      const ox = getOxideObj();
-      const oxSum = updateOxideSum();
+      const ox = getEffectiveOxideObjForProcess();
+      const oxSum = Object.values(ox).reduce((a,b)=>a+Number(b||0), 0);
+      updateOxideSum();
 
       fs_output.value = buildRecipeText({
         simulantName: simName,
@@ -3273,16 +3531,16 @@ Time ≥700°C [s]:         ${Math.round(res.t700)}
       const runs = loadRuns();
 
       const simKey = simulantPreset.value;
-      const simName = simKey || "Simulant";
-      const ox = getOxideObj();
+      const simName = `${simKey || "Simulant"} | ${getProcessBasisLabel()}`;
+      const ox = getEffectiveOxideObjForProcess();
       const oxHash = hashOx(ox);
 
       const obj = {
-        simulantKey: simKey,
+        simulantKey: `${simKey}|${getProcessBasisLabel()}`,
         simulantName: simName,
         Tc: Number(p2_Tc.value),
         Pbar: Number(p2_Pbar.value),
-        regolithBasis: Number(p2_regolithBasis.value),
+        regolithBasis: Number(getEffectiveRegolithBasis()),
         fCchar: Number(p2_fCchar.value),
         cMult: Number(p2_cMult.value),
         oxHash,
@@ -3340,10 +3598,10 @@ Time ≥700°C [s]:         ${Math.round(res.t700)}
 
     function getPart2Query(){
       return {
-        simulantKey: simulantPreset.value,
+        simulantKey: `${simulantPreset.value}|${getProcessBasisLabel()}`,
         Tc: Number(p2_Tc.value),
         Pbar: Number(p2_Pbar.value),
-        regolithBasis: Number(p2_regolithBasis.value),
+        regolithBasis: Number(getEffectiveRegolithBasis()),
         cMult: Number(p2_cMult.value),
       };
     }
@@ -3783,6 +4041,14 @@ Operator notes
     customMoistPct.addEventListener("input", () => computeDryReactiveMass("custom"));
     customInertFrac.addEventListener("input", () => computeDryReactiveMass("custom"));
     customAutoNormalize.addEventListener("change", () => computeDryReactiveMass("custom"));
+    [blend_celluloseMass, blend_nitrileMass, blend_polyolefinMass, blend_laminateMass].filter(Boolean).forEach(i => {
+      i.addEventListener("input", () => {
+        if (materialPreset.value === "blend") computeDryReactiveMass("blend");
+      });
+      i.addEventListener("change", () => {
+        if (materialPreset.value === "blend") computeDryReactiveMass("blend");
+      });
+    });
     [yCharInput,yCondInput,yGasInput].forEach(i => i.addEventListener("input", updateYieldSum));
 
     if (atmosphereInput){
@@ -3843,6 +4109,13 @@ if (reg_calcMagBtn) reg_calcMagBtn.addEventListener("click", calcMagneticMateria
       benefState.use = Boolean(mb_forwardToP2.checked) && benefState.ran;
       syncBeneficiationToPart2();
       refreshPart3GatePreview();
+    });
+    if (mb_streamForTests) mb_streamForTests.addEventListener("change", () => {
+      benefState.stream = mb_streamForTests.value;
+      benefState.use = Boolean(mb_forwardToP2.checked) && benefState.ran && mb_streamForTests.value !== "manual";
+      syncBeneficiationToPart2();
+      refreshPart3GatePreview();
+      if (benefState.ran) runMagneticBeneficiation();
     });
     mb_runBtn.addEventListener("click", runMagneticBeneficiation);
     mb_regolithMass.addEventListener("input", () => {
