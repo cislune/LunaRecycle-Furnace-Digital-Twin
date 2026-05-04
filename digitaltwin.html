@@ -5,6 +5,4227 @@
   <title>Feedstock Digital Twin – Organic + Zotek</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+
+  <style>
+    :root{
+      --bg0:#071423;
+      --bg1:#0b1a2a;
+      --panel: rgba(255,255,255,0.06);
+      --stroke: rgba(255,255,255,0.12);
+      --stroke2: rgba(255,255,255,0.18);
+      --text:#e9eef5;
+      --muted: rgba(233,238,245,0.72);
+      --shadow: 0 14px 36px rgba(0,0,0,0.42);
+      --r: 16px;
+
+      /* (changed) equation visuals */
+      --eqBg: rgba(0,0,0,0.58);             /* darker equation box */
+      --eqStroke: rgba(255,255,255,0.16);
+
+      /* (changed) key box visuals */
+      --eqKeyBg: rgba(0,0,0,0.78);          /* sheer black key box */
+      --eqKeyStroke: rgba(255,255,255,0.16);
+
+      --accent: rgba(180,120,255,0.70);
+    }
+
+    * { box-sizing: border-box; }
+    html { background: #020611; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(140, 90, 255, 0.34), transparent 62%),
+        radial-gradient(1000px 650px at 80% 20%, rgba(175, 110, 255, 0.22), transparent 58%),
+        radial-gradient(900px 600px at 55% 85%, rgba(210, 140, 255, 0.14), transparent 62%),
+        radial-gradient(700px 500px at 30% 70%, rgba(255, 120, 210, 0.12), transparent 60%),
+        radial-gradient(900px 700px at 70% 65%, rgba(255, 210, 255, 0.10), transparent 62%),
+        linear-gradient(180deg, #01040f, #040b1a 48%, #071423),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3CradialGradient id='neb1' cx='30%25' cy='25%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%238c5aff' stop-opacity='0.44'/%3E%3Cstop offset='55%25' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='neb2' cx='78%25' cy='30%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23b06dff' stop-opacity='0.34'/%3E%3Cstop offset='60%25' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='neb3' cx='55%25' cy='82%25' r='75%25'%3E%3Cstop offset='0%25' stop-color='%23d28aff' stop-opacity='0.22'/%3E%3Cstop offset='65%25' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='blur' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='18'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='1600' height='900' fill='%23020611'/%3E%3Crect width='1600' height='900' fill='url(%23neb1)' filter='url(%23blur)'/%3E%3Crect width='1600' height='900' fill='url(%23neb2)' filter='url(%23blur)'/%3E%3Crect width='1600' height='900' fill='url(%23neb3)' filter='url(%23blur)'/%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='90' cy='120' r='1.2' opacity='0.85'/%3E%3Ccircle cx='220' cy='240' r='1.0' opacity='0.65'/%3E%3Ccircle cx='410' cy='160' r='1.4' opacity='0.8'/%3E%3Ccircle cx='560' cy='320' r='1.1' opacity='0.7'/%3E%3Ccircle cx='720' cy='90' r='1.0' opacity='0.6'/%3E%3Ccircle cx='840' cy='210' r='1.6' opacity='0.85'/%3E%3Ccircle cx='990' cy='140' r='1.1' opacity='0.7'/%3E%3Ccircle cx='1120' cy='260' r='1.0' opacity='0.55'/%3E%3Ccircle cx='1280' cy='110' r='1.3' opacity='0.75'/%3E%3Ccircle cx='1460' cy='220' r='1.1' opacity='0.7'/%3E%3Ccircle cx='150' cy='520' r='1.1' opacity='0.65'/%3E%3Ccircle cx='310' cy='610' r='1.4' opacity='0.8'/%3E%3Ccircle cx='470' cy='520' r='1.0' opacity='0.55'/%3E%3Ccircle cx='650' cy='680' r='1.2' opacity='0.7'/%3E%3Ccircle cx='820' cy='560' r='1.1' opacity='0.65'/%3E%3Ccircle cx='980' cy='720' r='1.5' opacity='0.8'/%3E%3Ccircle cx='1160' cy='610' r='1.0' opacity='0.55'/%3E%3Ccircle cx='1320' cy='740' r='1.2' opacity='0.7'/%3E%3Ccircle cx='1480' cy='620' r='1.4' opacity='0.78'/%3E%3Ccircle cx='1040' cy='420' r='1.0' opacity='0.55'/%3E%3Ccircle cx='1220' cy='430' r='1.2' opacity='0.7'/%3E%3Ccircle cx='1380' cy='420' r='1.0' opacity='0.6'/%3E%3Ccircle cx='260' cy='380' r='1.1' opacity='0.65'/%3E%3Ccircle cx='540' cy='430' r='1.3' opacity='0.75'/%3E%3Ccircle cx='760' cy='420' r='1.0' opacity='0.55'/%3E%3Ccircle cx='910' cy='360' r='1.4' opacity='0.8'/%3E%3Ccircle cx='60' cy='760' r='1.1' opacity='0.6'/%3E%3Ccircle cx='420' cy='820' r='1.0' opacity='0.55'/%3E%3Ccircle cx='760' cy='840' r='1.2' opacity='0.7'/%3E%3Ccircle cx='1180' cy='820' r='1.0' opacity='0.55'/%3E%3Ccircle cx='1540' cy='820' r='1.3' opacity='0.72'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: auto, auto, auto, auto, auto, auto, cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+
+    header{
+      position: sticky;
+      top:0;
+      z-index: 10;
+      padding: 18px 16px;
+      background: rgba(6,18,34,0.90);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+.topbar{
+  width: 100%;
+  padding: 16px 40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap: 4px;
+  min-width: 0;
+}
+    .brandName{
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(233,238,245,0.85);
+      line-height: 1;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    h1{
+      margin:0;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(233,238,245,0.78);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    
+    /* =========================
+   Top-level section tabs
+   ========================= */
+.appTabs{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.appTab{
+  width: auto;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: rgba(233,238,245,0.86);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 140ms ease, transform 140ms ease, border-color 140ms ease;
+}
+
+.appTab:hover{
+  background: rgba(255,255,255,0.09);
+  transform: translateY(-1px);
+}
+
+.appTab.isActive{
+  border-color: rgba(180,120,255,0.62);
+  background: rgba(180,120,255,0.18);
+}
+
+@media (max-width: 920px){
+  .appTabs{ justify-content:flex-start; }
+}
+
+main{
+  width: 100%;
+  max-width: 1820px;
+  margin: 0 auto;
+  padding: 26px 40px 44px;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .cardHeader{
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .cardHeader h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .desc{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+      max-width: 78ch;
+    }
+
+    .content{ padding: 18px; }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 920px){
+      .grid2{ grid-template-columns: 1fr; }
+      .grid3{ grid-template-columns: 1fr; }
+      .topbar{ flex-direction: column; align-items:flex-start; }
+      .badge{ white-space: normal; }
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: rgba(233,238,245,0.88);
+      margin-bottom: 6px;
+    }
+
+    input, select, button, textarea{
+      width:100%;
+      padding: 11px 11px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease, opacity 120ms ease;
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(180,120,255,0.18);
+      background: rgba(255,255,255,0.08);
+    }
+
+    input:disabled{ opacity: 0.7; cursor: not-allowed; }
+
+    .selectWrap{ position: relative; }
+    .selectWrap select{
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .selectWrap:after{
+      content:"";
+      position:absolute;
+      right: 14px;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(233,238,245,0.75);
+      border-bottom: 2px solid rgba(233,238,245,0.75);
+      transform: translateY(-60%) rotate(45deg);
+      pointer-events:none;
+      opacity: 0.9;
+    }
+
+    button{
+      cursor:pointer;
+      font-weight: 900;
+      background: linear-gradient(180deg, rgba(180,120,255,0.50), rgba(180,120,255,0.24));
+      border-color: rgba(180,120,255,0.62);
+    }
+    button:hover{
+      background: linear-gradient(180deg, rgba(180,120,255,0.60), rgba(180,120,255,0.30));
+    }
+
+    pre{
+      margin:0;
+      background: rgba(0,0,0,0.48);
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 14px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    textarea{
+      min-height: 170px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.35;
+      white-space: pre;
+    }
+
+    details{
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      user-select:none;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    summary::-webkit-details-marker{ display:none; }
+
+    .sumLeft{
+      display:flex;
+      flex-direction:column;
+      gap: 5px;
+    }
+    .sumTitle{
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+    }
+    .sumSub{
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
+      max-width: 92ch;
+    }
+    .chev{
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(233,238,245,0.70);
+      border-bottom: 2px solid rgba(233,238,245,0.70);
+      transform: rotate(45deg);
+      transition: transform 160ms ease;
+      opacity: 0.9;
+      flex: 0 0 auto;
+    }
+    details[open] .chev{ transform: rotate(225deg); }
+
+    .inner{ padding: 16px; }
+
+    .pillRow{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .pill{
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: rgba(233,238,245,0.85);
+    }
+
+    .mini{
+      font-size:12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.35;
+    }
+
+    .successPill{
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(124,255,124,0.20);
+      background: rgba(124,255,124,0.10);
+      color: rgba(233,238,245,0.92);
+      white-space: nowrap;
+    }
+
+    .warnPill{
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255,190,80,0.22);
+      background: rgba(255,190,80,0.12);
+      color: rgba(233,238,245,0.92);
+      white-space: nowrap;
+    }
+
+    .hide { display:none; }
+
+    .sectionDivider{
+      text-align:center;
+      color: rgba(233,238,245,0.78);
+      padding: 10px 0 2px;
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-size: 11px;
+      opacity: 0.9;
+    }
+
+    .sectionDividerTight{
+      text-align:center;
+      color: rgba(233,238,245,0.78);
+      padding: 4px 0 0;
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-size: 11px;
+      opacity: 0.9;
+    }
+
+    a.inlineLink{
+      color: rgba(210, 180, 255, 0.95);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(210, 180, 255, 0.35);
+    }
+    a.inlineLink:hover{
+      border-bottom-color: rgba(210, 180, 255, 0.75);
+    }
+
+    .fullBtn{ width:100%; display:block; }
+    .centerRow{ display:flex; justify-content:center; align-items:center; margin-top:14px; }
+
+    .checkRow{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+    .checkRow input[type="checkbox"]{
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      padding: 0;
+      border-radius: 6px;
+      accent-color: rgba(180,120,255,0.9);
+    }
+    .checkRow .checkText{
+      font-size: 12.5px;
+      color: rgba(233,238,245,0.86);
+      line-height: 1.35;
+    }
+
+    .btnRow{
+      display:flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (max-width: 920px){
+      .btnRow{ flex-direction: column; }
+    }
+
+    /* =========================
+       Equation system
+       ========================= */
+    .eqCaption{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(233,238,245,0.78);
+      line-height: 1.35;
+    }
+
+    .eqBox{
+      margin-top: 8px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--eqStroke);
+      background: var(--eqBg);
+      overflow: hidden;
+
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .eqBox .eqMath{
+      min-height: 120px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.38);     /* darker inner panel */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      overflow:auto;
+    }
+
+    /* Default equation size (unchanged) */
+    .katex{
+      color: rgba(233,238,245,0.94);
+      font-size: 1.28em;
+    }
+    .katex-display{ margin: 0; }
+
+    /* (changed) Smaller equations ONLY for feedstock + kinetics boxes */
+    .eqBox.eqFeedstock .katex,
+    .eqBox.eqKinetics .katex{
+      font-size: 1.16em;
+    }
+
+    /* (changed) Key styling: sheer black box + corner title + prettier font */
+    .eqBox .eqKey{
+      position: relative;
+      border-radius: 12px;
+      border: 1px solid var(--eqKeyStroke);
+      background: var(--eqKeyBg);
+      padding: 10px 12px 10px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.05),
+        0 16px 28px rgba(0,0,0,0.60);
+      overflow: hidden;
+    }
+
+    .eqKeyTitle{
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      font-weight: 650;
+    }
+
+    .eqKeyList{
+      margin-top: 22px;
+      font-size: 12px;
+      line-height: 1.35;
+      font-family: "IBM Plex Serif", "STIX Two Text", "Georgia", "Times New Roman", serif;
+      color: rgba(233,238,245,0.88);
+    }
+
+    .eqKeyList > div{
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      margin-bottom: 4px;
+    }
+
+    .eqKeyList .k{
+      display:inline-flex;
+      align-items:center;
+      min-width: 56px;
+      margin-right: 8px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .eqKeyList .k .katex{
+      font-size: 1.0em;
+    }
+
+    @media (max-width: 920px){
+      .eqBox{ grid-template-columns: 1fr; }
+      .eqKeyList > div{ white-space: normal; }
+    }
+    /* =========================
+   Left side tab navigation
+   ========================= */
+.sideTabs{
+  position: fixed;
+  left: 18px;
+  top: 148px; /* below header + section tabs */
+  z-index: 20;
+  width: 285px;
+  pointer-events: none;
+}
+
+.sideTabsInner{
+  pointer-events: auto;
+  background: rgba(6,18,34,0.86);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.42);
+  padding: 14px;
+}
+
+.sideTabsTitle{
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(233,238,245,0.72);
+  font-weight: 800;
+  margin: 2px 6px 10px;
+}
+
+.sideTab{
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  color: rgba(233,238,245,0.86);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.sideTab:hover{
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+.sideTab.isActive{
+  border-color: rgba(180,120,255,0.62);
+  background: rgba(180,120,255,0.18);
+}
+
+
+
+
+.organicWrap{ position: relative; }
+
+
+
+
+/* =========================
+   Workflow alignment fix
+   ========================= */
+.contentSection{
+  display:none;
+  width: 100%;
+  max-width: 100%;
+}
+
+.contentSection.isActive{
+  display:block;
+}
+
+.organicMain{
+  width: 100%;
+}
+
+.organicMain > .sectionDivider,
+.organicMain > .sectionDividerTight,
+.organicMain > .card{
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.card,
+details,
+.eqBox,
+.grid2,
+.grid3,
+.content,
+.inner{
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.eqBox{
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+}
+
+.eqBox .eqMath{
+  min-width: 0;
+}
+
+@media (min-width: 1181px){
+  .organicMain{
+    padding-left: 325px;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 1180px){
+  .organicMain{
+    padding-left: 0;
+  }
+}
+
+.organicMain > .card{
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.organicMain > .sectionDivider,
+.organicMain > .sectionDividerTight{
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 1180px){
+  .sideTabs{ display:none; }
+}
+  
+/* Merged regolith feed + oxide bubble spacing */
+details .sectionDividerTight{
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 16px;
+  margin-bottom: 12px;
+}
+
+</style>
+</head>
+
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brandName">CISLUNE</div>
+      <h1>Feedstock Digital Twin – Organic + Zotek</h1>
+    </div>
+<div class="appTabs" aria-label="Process selection">
+      <button class="appTab isActive" data-section="organicSection">Organic</button>
+      <button class="appTab" data-section="zotekSection">Zotek</button>
+    </div>
+
+  </div>
+  
+</header>
+
+<div class="sideTabs" id="organicSideTabs">
+  <div class="sideTabsInner">
+    <div class="sideTabsTitle">Simulation workflow</div>
+    <button class="sideTab" data-target="partRegolith">1. Regolith Settings</button>
+    <button class="sideTab" data-target="part2mag">2. N52 Magnetic Beneficiation</button>
+    <button class="sideTab" data-target="part1">3. Pyrolysis</button>
+    <button class="sideTab" data-target="part2">4. Steel Yield</button>
+    <button class="sideTab" data-target="part3">5. Carbon Deficit</button>
+    <button class="sideTab" data-target="part4">6. Power Outage</button>
+    <button class="sideTab" data-target="part5">7. Char Oxidation</button>
+  </div>
+</div>
+
+<main>
+
+<section id="organicSection" class="contentSection isActive organicMain">
+
+
+<div class="sectionDividerTight" id="partRegolith">Part 1</div>
+
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 1: Regolith Settings</h2>
+        <div class="desc">Choose the regolith simulant, set the regolith quantity, edit the oxide composition, and output the magnetic-material proxy mass before N52 beneficiation.</div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">Simulant</div>
+        <div class="pill">Quantity</div>
+        <div class="pill">Oxides</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+
+            <details open id="regolithSettings">
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Regolith Feed + Oxide Composition</div>
+            <div class="sumSub">Choose the simulant, enter the regolith quantity, and review or edit the oxide wt% table in one place before magnetic beneficiation.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="mini" style="margin-top:0; margin-bottom:14px;">
+            The simulant dropdown auto-fills the oxide table. Select Custom to enter measured oxide chemistry manually.
+          </div>
+
+
+            <div class="eqBox">
+            <div class="eqMath latex" data-display="true"
+              data-latex="\begin{aligned}
+m_{\mathrm{dry}} &= m_{\mathrm{reg}}\left(1-\frac{\mathrm{LOI}}{100}\right) \\[8pt]
+m_i &= m_{\mathrm{dry}}\frac{w_i}{100} \\[8pt]
+m_{\mathrm{mag,proxy}} &= m_{\mathrm{dry}}\frac{w_{\mathrm{FeO}} + w_{\mathrm{Fe_2O_3}} + w_{\mathrm{TiO_2}}}{100}
+\end{aligned}">
+            </div>
+            <div class="eqKey">
+              <div class="eqKeyTitle">Key</div>
+              <div class="eqKeyList">
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{reg}}"></span>as-loaded regolith quantity (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="\mathrm{LOI}"></span>moisture / volatile correction (wt%)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{dry}}"></span>dry regolith basis (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="w_i"></span>oxide i concentration from table (wt%)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_i"></span>oxide i mass sent downstream (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{mag,proxy}}"></span>pre-beneficiation magnetic oxide proxy mass (g)</div>
+              </div></div>
+            </div>
+          </div>
+
+                    <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Regolith simulant</label>
+              <div class="selectWrap">
+               <select id="simulantPreset">
+  <option value="generic" selected>Generic basaltic regolith</option>
+  <option value="jsc1a">JSC-1A basaltic simulant</option>
+  <option value="lhs1">LHS-1 highlands simulant</option>
+  <option value="nulht2m">NU-LHT-2M highlands simulant</option>
+  <option value="custom">Custom / measured oxide table</option>
+               </select>
+              </div>
+              <div class="mini">Changing this dropdown auto-fills the oxide table below.</div>
+            </div>
+            <div>
+              <label>Regolith quantity [g]</label>
+              <input id="p2_regolithBasis" type="number" value="1000" step="0.001">
+              <div class="mini">Total regolith mass entering the workflow before beneficiation.</div>
+            </div>
+            <div>
+              <label>Moisture / LOI correction [wt%]</label>
+              <input id="p2_loiPct" type="number" value="0.0" step="0.1" min="0" max="50">
+              <div class="mini">Use 0 if the simulant is dry or the oxide table is already volatile-free.</div>
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Ferric iron treatment</label>
+              <div class="selectWrap">
+                <select id="p2_feTreatment">
+                  <option value="as_entered" selected>Use FeO + Fe₂O₃ as entered</option>
+                  <option value="feo_equiv">Convert Fe₂O₃ to FeO-equivalent</option>
+                </select>
+              </div>
+              <div class="mini">Only affects downstream chemistry interpretation.</div>
+            </div>
+            <div>
+              <label>Oxide table behavior</label>
+              <input disabled value="Preset simulants auto-fill; Custom is editable">
+              <div class="mini">Use the table below for measured oxide percentages.</div>
+            </div>
+          </div>
+
+          <div class="hide">
+            <input id="reg_magPhasePct" type="number" value="18">
+            <input id="reg_d50um" type="number" value="150">
+            <input id="reg_surfaceFieldT" type="number" value="1.45">
+            <input id="reg_gapMm" type="number" value="5">
+            <input id="p2_fCchar" type="number" value="0.80" step="0.01">
+            <input id="p2_cMult" type="number" value="1.00" step="0.05">
+            <input id="p2_Tc" type="number" value="1550" step="10">
+            <input id="p2_Pbar" type="number" value="1.0" step="0.1">
+            <input id="p2_charMass" disabled value="Run Part 1 first">
+          </div>
+        
+
+          <div class="sectionDividerTight" style="margin-top:18px;">Oxide composition</div>
+
+
+        <div class="grid3">
+  <div><label>SiO₂ [wt%]</label><input id="ox_SiO2" type="number" step="0.01" value="47.20"></div>
+  <div><label>Al₂O₃ [wt%]</label><input id="ox_Al2O3" type="number" step="0.01" value="16.70"></div>
+  <div><label>FeO [wt%]</label><input id="ox_FeO" type="number" step="0.01" value="6.20"></div>
+
+  <div><label>Fe₂O₃ [wt%]</label><input id="ox_Fe2O3" type="number" step="0.01" value="0.00"></div>
+  <div><label>CaO [wt%]</label><input id="ox_CaO" type="number" step="0.01" value="9.20"></div>
+  <div><label>MgO [wt%]</label><input id="ox_MgO" type="number" step="0.01" value="6.50"></div>
+
+  <div><label>TiO₂ [wt%]</label><input id="ox_TiO2" type="number" step="0.01" value="2.30"></div>
+  <div><label>Na₂O [wt%]</label><input id="ox_Na2O" type="number" step="0.01" value="3.50"></div>
+  <div><label>K₂O [wt%]</label><input id="ox_K2O" type="number" step="0.01" value="1.10"></div>
+
+  <div><label>MnO [wt%]</label><input id="ox_MnO" type="number" step="0.01" value="0.00"></div>
+  <div><label>P₂O₅ [wt%]</label><input id="ox_P2O5" type="number" step="0.01" value="0.00"></div>
+  <div><label>Cr₂O₃ [wt%]</label><input id="ox_Cr2O3" type="number" step="0.01" value="0.00"></div>
+</div>
+
+
+
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Oxide wt% sum (must equal 100.00)</label>
+              <input id="ox_sum" disabled value="—">
+              <div class="mini">This should be exactly 100.00 wt% for a complete composition.</div>
+            </div>
+            <div>
+              <label>Notes (optional)</label>
+              <input id="ox_notes" placeholder="Other oxides/volatiles not listed here (Cl, SO3, etc.)">
+            </div>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>Part 1 Output — Magnetic Material Estimate</h2>
+                <div class="desc">Uses regolith mass, LOI correction, and oxide wt% values to estimate the mass of magnetically relevant Fe/Ti-bearing oxide material available before N52 beneficiation.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill">FeO</div>
+                <div class="pill">Fe₂O₃</div>
+                <div class="pill">TiO₂</div>
+              </div>
+            </div>
+            <div class="content">
+              <button id="reg_calcMagBtn">Calculate Magnetic Material from Oxides</button>
+              <div style="height:12px;"></div>
+              <pre id="reg_magOut">Set regolith quantity and oxide wt%, then calculate magnetic material.</pre>
+            </div>
+          </div>
+
+        
+        </div>
+      </details>
+    </div>
+  </div>
+
+
+<div class="sectionDivider" id="part2mag">Part 2</div>
+
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 2: N52 Neodymium Magnet Beneficiation</h2>
+        <div class="desc">Models dry magnetic beneficiation using an NdFeB N52 neodymium magnet. The section estimates Fe-bearing magnetic concentrate recovery as a function of feed mass, magnetic phase abundance, magnet field/gap, particle size, liberation efficiency, and gangue entrainment before forwarding concentrate to the steel workflow.</div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">NdFeB N52</div>
+        <div class="pill">Magnetic capture</div>
+        <div class="pill">Concentrate basis</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">N52 magnet separation inputs</div>
+            <div class="sumSub">Use this step to estimate how much Fe-bearing material is captured by an N52 magnet and how much non-magnetic gangue is entrained in the concentrate.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="eqBox">
+            <div class="eqMath latex" data-display="true"
+              data-latex="\begin{aligned}
+B_{\mathrm{eff}} &= B_{\mathrm{N52}}\,\exp\!\left(-\frac{g}{g_{0}}\right) \\[8pt]
+\eta_{\mathrm{cap}} &= f\!\left(B_{\mathrm{eff}},d_{50},v_{\mathrm{belt}},\theta_{\mathrm{wrap}}\right) \\[8pt]
+m_{\mathrm{mag,bin}} &= m_{\mathrm{feed}}\,w_{\mathrm{mag}}\,\eta_{\mathrm{cap}} + m_{\mathrm{gangue,entrained}} \\[8pt]
+m_{\mathrm{nonmag,bin}} &= m_{\mathrm{feed}} - m_{\mathrm{mag,bin}}
+\end{aligned}">
+            </div>
+            <div class="eqKey">
+              <div class="eqKeyTitle">Key</div>
+              <div class="eqKeyList">
+                <div><span class="k latex" data-display="false" data-latex="B_{\mathrm{N52}}"></span>measured N52 field at drum working face (T)</div>
+                <div><span class="k latex" data-display="false" data-latex="g"></span>belt + non-magnetic drum + air gap (mm)</div>
+                <div><span class="k latex" data-display="false" data-latex="g_0"></span>field-decay length scale (mm)</div>
+                <div><span class="k latex" data-display="false" data-latex="B_{\mathrm{eff}}"></span>effective field at sample (T)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{feed}}"></span>bulk regolith feed mass (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="w_{\mathrm{mag}}"></span>magnetic phase fraction in feed</div>
+                <div><span class="k latex" data-display="false" data-latex="d_{50}"></span>median particle size (µm)</div>
+                <div><span class="k latex" data-display="false" data-latex="\eta_{\mathrm{cap}}"></span>predicted magnetic capture efficiency</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{mag,bin}}"></span>predicted magnetic-bin output (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{gangue,entrained}}"></span>predicted non-magnetic carryover (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{nonmag,bin}}"></span>predicted non-magnetic-bin output (g)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Measured feed mass into N52 test [g]</label>
+              <input id="mb_regolithMass" type="number" value="1000" step="0.001" min="0">
+            </div>
+            <div>
+              <label>Magnet grade / separator</label>
+              <input id="mb_strength" disabled value="NdFeB N52 permanent magnet">
+            </div>
+            <div>
+              <label>Separator geometry</label>
+              <input disabled value="Belt over non-magnetic drum with internal N52 magnet">
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Measured magnetic fraction in feed [wt%]</label>
+              <input id="mb_feFeedPct" type="number" value="18" step="0.1" min="0" max="100">
+            </div>
+            <div>
+              <label>Measured field at sample face [T]</label>
+              <input id="mb_surfaceFieldT" type="number" value="1.45" step="0.01" min="0">
+              <div class="mini">Measured with gaussmeter at the working face or sample bed.</div>
+            </div>
+            <div>
+              <label>Measured magnet-sample gap [mm]</label>
+              <input id="mb_gapMm" type="number" value="5" step="0.1" min="0">
+              <div class="mini">Physical gap used during the test.</div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Particle d50 [µm]</label>
+              <input id="mb_d50um" type="number" value="150" step="1" min="1">
+              <div class="mini">Median feed particle size used to predict capture.</div>
+            </div>
+            <div>
+              <label>Belt speed [m/s]</label>
+              <input id="mb_beltSpeed" type="number" value="0.20" step="0.01" min="0.001">
+              <div class="mini">Faster belts reduce magnetic residence time.</div>
+            </div>
+            <div>
+              <label>Drum wrap angle [deg]</label>
+              <input id="mb_wrapDeg" type="number" value="180" step="1" min="1" max="270">
+              <div class="mini">Larger wrap angle increases exposure to the N52 field.</div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Gangue entrainment factor [0–1]</label>
+              <input id="mb_ganguePct" type="number" value="0.12" step="0.01" min="0" max="1">
+              <div class="mini">Predicts non-magnetic carryover into the magnetic bin.</div>
+            </div>
+            <div>
+              <label>Number of passes</label>
+              <input id="mb_passes" type="number" value="1" step="1" min="1" max="10">
+              <div class="mini">Additional passes increase total predicted capture.</div>
+            </div>
+            <div>
+              <label>Prediction mode</label>
+              <input disabled value="Outputs are calculated, not entered">
+            </div>
+          </div>
+
+          <div class="hide">
+            <input id="mb_magRecoveryPct" type="number" value="35">
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Downstream test stream</label>
+              <div class="selectWrap">
+                <select id="mb_streamForTests">
+                  <option value="magnetic" selected>Magnetic-bin concentrate</option>
+                  <option value="nonmagnetic">Non-magnetic-bin reject/tailings</option>
+                  <option value="manual">Manual regolith basis / no beneficiation stream</option>
+                </select>
+              </div>
+              <div class="mini">After beneficiation, choose which separated stream to send into the downstream FactSage / steel product workflow.</div>
+            </div>
+            <div>
+              <label>Selected stream behavior</label>
+              <input disabled value="Magnetic and non-magnetic portions can be tested separately">
+              <div class="mini">The selected stream updates the regolith mass basis and estimated oxide chemistry used downstream.</div>
+            </div>
+          </div>
+
+          <div class="checkRow" style="margin-top:14px;">
+            <input id="mb_forwardToP2" type="checkbox" checked>
+            <div class="checkText">
+              <strong>Use selected beneficiation stream as the downstream test basis</strong>
+              (choose magnetic-bin or non-magnetic-bin above, then run steel / product tests on that separated portion).
+            </div>
+          </div>
+
+          <div class="centerRow">
+            <button id="mb_runBtn" class="fullBtn">Run Magnetic Beneficiation</button>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>Beneficiation output</h2>
+                <div class="desc">Reports how much concentrate is recovered, how much iron-rich material is retained, and the quality of each separated stream for downstream product testing.</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="mb_out">Run the beneficiation step to predict magnetic-bin and non-magnetic-bin outputs, then choose which stream to test downstream.</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+
+
+<div class="sectionDivider" id="part1">Part 3</div>
+
+  
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 3: Pyrolysis</h2>
+        <div class="desc">Computes pyrolytic conversion of organic feedstocks, reports resulting char, condensable, and permanent gas yields, and feeds the downstream carbothermal reduction and off-nominal scenarios.</div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">Presets</div>
+        <div class="pill">Kinetics</div>
+        <div class="pill">Thermal lag</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Feedstock Presets</div>
+            <div class="sumSub">Single feedstock or mixed feedstock masses → remove inert + moisture fractions → dry reactive mass.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+            <div class="eqBox eqFeedstock">
+            <div class="eqMath latex" data-display="true"
+              data-latex="\begin{aligned}
+m_{\mathrm{reactive}} &= (1 - f_{\mathrm{inert}})\, m_{\mathrm{wet}} \\[8pt]
+m_{\mathrm{dry}} &= (1 - f_{\mathrm{moist}})\, m_{\mathrm{reactive}}
+\end{aligned}">
+            </div>
+            <div class="eqKey">
+              <div class="eqKeyTitle">Key</div>
+              <div class="eqKeyList">
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{wet}}"></span>as-received feedstock mass (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="f_{\mathrm{inert}}"></span>non-reactive/inert mass fraction</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{reactive}}"></span>wet reactive mass after inert removal (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="f_{\mathrm{moist}}"></span>moisture fraction of reactive feed</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{dry}}"></span>dry reactive mass entering pyrolysis (g)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Feedstock Preset</label>
+              <div class="selectWrap">
+                <select id="materialPreset">
+                  <option value="cellulose">Cotton T-shirt</option>
+                  <option value="nitrile" selected>Nitrile Gloves</option>
+                  <option value="polyolefin">Polyethylene Bag</option>
+                  <option value="laminate">Foil Coffee Pouch</option>
+                  <option value="blend">Blend multiple feedstocks</option>
+                  <option value="custom">Custom feedstock</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="wetMassBlock">
+              <label>As-received Input Mass [g]</label>
+              <input id="wetMass" type="number" value="200" step="0.001">
+            </div>
+          </div>
+
+          <div id="customPresetBlock" class="card hide" style="margin-top:14px; box-shadow:none;">
+            <div class="cardHeader">
+              <div>
+                <h2>Custom preset inputs</h2>
+                <div class="desc">Override inert/moisture assumptions when needed.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill">Moisture</div>
+                <div class="pill">Inert</div>
+                <div class="pill">Normalization</div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="grid3">
+                <div>
+                  <label>Moisture [wt% of reactive]</label>
+                  <input id="customMoistPct" type="number" value="0" step="0.1" min="0" max="99">
+                  <div class="mini">Reactive-basis moisture.</div>
+                </div>
+                <div>
+                  <label>Inert fraction [0–1]</label>
+                  <input id="customInertFrac" type="number" value="0" step="0.01" min="0" max="0.99">
+                  <div class="mini">Non-reacting fraction.</div>
+                </div>
+                <div>
+                  <label>Auto-normalize dry mass from wet mass</label>
+                  <div class="selectWrap">
+                    <select id="customAutoNormalize">
+                      <option value="yes" selected>Yes (recommended)</option>
+                      <option value="no">No (I’ll type dry mass myself)</option>
+                    </select>
+                  </div>
+                  <div class="mini">If “No”, the dry mass input is used as-is.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="blendPresetBlock" class="card hide" style="margin-top:14px; box-shadow:none;">
+            <div class="cardHeader">
+              <div>
+                <h2>Mixed feedstock inputs</h2>
+                <div class="desc">Enter as-received mass for each organic feedstock. The model mass-normalizes each component, then computes blended kinetics and product yields by dry-reactive-mass weighting.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill">Mass blend</div>
+                <div class="pill">Weighted kinetics</div>
+                <div class="pill">Weighted yields</div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="grid2">
+                <div>
+                  <label>Cotton T-shirt [g]</label>
+                  <input id="blend_celluloseMass" type="number" value="0" step="0.001" min="0">
+                  <div class="mini">Uses Cotton T-shirt preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+                <div>
+                  <label>Nitrile Gloves [g]</label>
+                  <input id="blend_nitrileMass" type="number" value="200" step="0.001" min="0">
+                  <div class="mini">Uses Nitrile Gloves preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+              </div>
+              <div class="grid2" style="margin-top:14px;">
+                <div>
+                  <label>Polyethylene Bag [g]</label>
+                  <input id="blend_polyolefinMass" type="number" value="0" step="0.001" min="0">
+                  <div class="mini">Uses Polyethylene Bag preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+                <div>
+                  <label>Foil Coffee Pouch [g]</label>
+                  <input id="blend_laminateMass" type="number" value="0" step="0.001" min="0">
+                  <div class="mini">Uses Foil Coffee Pouch preset moisture, inert fraction, kinetics, and yields.</div>
+                </div>
+              </div>
+              <div class="mini" style="margin-top:14px;">
+                In blend mode, the single as-received input mass is ignored and the dry reactive mass field is auto-filled from the feedstock mixture.
+              </div>
+            </div>
+          </div>
+
+          <pre id="massSummary">Mass normalization summary will appear here.</pre>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Reaction Kinetics</div>
+            <div class="sumSub">Maps the sample temperature history to pyrolytic conversion α(t) using Arrhenius-based reaction kinetics k(T), expressed in both rate and integral forms.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+        <div class="inner">         
+            <div class="eqBox eqKinetics">
+            <div class="eqMath latex" data-display="true"
+              data-latex="\begin{aligned}
+\frac{d\alpha}{dt} &= k(T)\,(1-\alpha) \\[10pt]
+k(T) &= A_1\,\exp\!\left(\frac{-E_a}{R\,T}\right) \\[12pt]
+\alpha(t) &= 1-\exp\!\left(-\int_{0}^{t}k\!\left(T(\tau)\right)\,d\tau\right)
+\end{aligned}">
+            </div>
+            <div class="eqKey">
+              <div class="eqKeyTitle">Key</div>
+              <div class="eqKeyList">
+                <div><span class="k latex" data-display="false" data-latex="\alpha"></span>fractional conversion of dry feed</div>
+                <div><span class="k latex" data-display="false" data-latex="t"></span>elapsed process time (s)</div>
+                <div><span class="k latex" data-display="false" data-latex="T"></span>sample temperature (K)</div>
+                <div><span class="k latex" data-display="false" data-latex="k(T)"></span>temperature-dependent rate constant (s⁻¹)</div>
+                <div><span class="k latex" data-display="false" data-latex="A_1"></span>pre-exponential factor (s⁻¹)</div>
+                <div><span class="k latex" data-display="false" data-latex="E_a"></span>activation energy (J/mol)</div>
+                <div><span class="k latex" data-display="false" data-latex="R"></span>gas constant, 8.314 J/mol/K</div>
+                <div><span class="k latex" data-display="false" data-latex="\tau"></span>integration dummy time (s)</div>
+                <div><span class="k latex" data-display="false" data-latex="T(\tau)"></span>sample temperature history (K)</div>
+                <div><span class="k latex" data-display="false" data-latex="\int_0^t k(T(\tau))\,d\tau"></span>dimensionless accumulated reaction severity</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Pre-exponential factor A₁ [s⁻¹]</label>
+              <input id="A1" value="5e9">
+            </div>
+            <div>
+              <label>Activation energy Eₐ [J/mol]</label>
+              <input id="Ea1" value="190000">
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Dry reactive mass used in simulation [g]</label>
+              <input id="mass" type="number" value="200" step="0.001">
+            </div>
+            <div>
+              <label>Time step Δt [s]</label>
+              <input id="dt" type="number" value="1" step="0.1">
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Primary Product Yields</div>
+            <div class="sumSub">Allocates the reacted portion of the feedstock mass among char, condensables, and permanent gas based on prescribed yield relationships. These product fractions are normalized such that their sum equals unity, ensuring strict mass conservation within the primary pyrolysis products.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+        <div class="inner">
+          <div class="grid2" style="margin-top:0;">
+            <div>
+              <label>Char yield fraction</label>
+              <input id="yChar" type="number" value="0.18" step="0.000001">
+            </div>
+            <div>
+              <label>Condensable yield fraction</label>
+              <input id="yCond" type="number" value="0.30" step="0.000001">
+            </div>
+          </div>
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <label>Permanent gas yield fraction</label>
+              <input id="yGas" type="number" value="0.52" step="0.000001">
+            </div>
+            <div>
+              <label>Yield sum (must equal 1.000000)</label>
+              <input id="yieldSum" disabled>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Heating Profile</div>
+            <div class="sumSub">The heating profile is composed of two ramp-and-hold stages: a linear temperature ramp to a setpoint followed by an isothermal hold. This profile is referred to as a ramp-and-hold sequence.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+        <div class="inner">
+          <div class="grid2" style="margin-top:0;">
+            <div><label>Initial furnace temperature T₀ [°C]</label><input id="T0" type="number" value="25" step="0.1"></div>
+            <div><label>Stage 1 target temperature [°C]</label><input id="T1" type="number" value="500" step="0.1"></div>
+          </div>
+          <div class="grid2" style="margin-top:14px;">
+            <div><label>Stage 1 ramp rate [°C/min]</label><input id="ramp1" type="number" value="10" step="0.1"></div>
+            <div><label>Stage 1 hold time [s]</label><input id="hold1" type="number" value="1800" step="1"></div>
+          </div>
+          <div class="grid2" style="margin-top:14px;">
+            <div><label>Stage 2 target temperature [°C]</label><input id="T2" type="number" value="700" step="0.1"></div>
+            <div><label>Stage 2 ramp rate [°C/min]</label><input id="ramp2" type="number" value="10" step="0.1"></div>
+          </div>
+          <div class="grid2" style="margin-top:14px;">
+            <div><label>Stage 2 hold time [s]</label><input id="hold2" type="number" value="1800" step="1"></div>
+            <div><label>Early-stop rule</label><input disabled value="Stops early if conversion α ≥ 0.999999"></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Realistic Furnace Baseline + Atmosphere</div>
+            <div class="sumSub">The realistic furnace model is always used as the Part 1 baseline. Atmosphere conditions can be tracked as Ar, N₂, or vacuum, with vacuum pressure entered directly in Pa.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+        <div class="inner">
+          <input id="mode" type="hidden" value="realistic">
+
+          <div class="grid2" style="margin-top:0;">
+            <div>
+              <label>Thermal model</label>
+              <input disabled value="Realistic Furnace Model (baseline)">
+            </div>
+            <div>
+              <label>Furnace nameplate (fixed constraints)</label>
+              <input disabled value="4 kW | RT–1600 °C operating | 1700 °C design clamp">
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Atmosphere condition</label>
+              <div class="selectWrap">
+                <select id="atmosphere">
+                  <option value="Ar" selected>Ar</option>
+                  <option value="N2">N₂</option>
+                  <option value="vacuum">Vacuum</option>
+                </select>
+              </div>
+            </div>
+            <div id="vacuumPaWrap" class="hide">
+              <label>Chamber pressure under vacuum [Pa]</label>
+              <input id="vacuumPa" type="number" value="100" step="1" min="0">
+            </div>
+            <div>
+              <label>Atmosphere note</label>
+              <input id="atmosphereSummary" disabled value="Ar selected">
+            </div>
+          </div>
+
+          <div id="furnaceBlock" class="card" style="margin-top:14px; box-shadow:none;">
+            <div class="cardHeader">
+              <div>
+                <h2>Furnace & Load Parameters (Realistic Model)</h2>
+                <div class="desc">Tune to match measured temperature response.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill">Controller</div>
+                <div class="pill">Thermal mass</div>
+                <div class="pill">Time constants</div>
+              </div>
+            </div>
+
+            <div class="content">
+              <div class="grid2">
+                <div><label>Controller step size [°C]</label><input id="ctrlStep" type="number" value="1" step="0.1"></div>
+                <div><label>Controller update period [s]</label><input id="ctrlUpdate" type="number" value="2" step="0.1"></div>
+              </div>
+              <div class="grid2" style="margin-top:14px;">
+                <div><label>Effective furnace thermal mass [J/K]</label><input id="Cfurn" type="number" value="18000" step="1"></div>
+                <div><label>Effective load thermal mass [J/K]</label><input id="Cload" type="number" value="2500" step="1"></div>
+              </div>
+              <div class="grid2" style="margin-top:14px;">
+                <div><label>Chamber time constant τ_chamber [s]</label><input id="tauCham" type="number" value="90" step="1"></div>
+                <div><label>Sample time constant τ_sample [s]</label><input id="tauSamp" type="number" value="120" step="1"></div>
+              </div>
+              <div class="grid2" style="margin-top:14px;">
+                <div><label>Maximum passive cooling rate [°C/min]</label><input id="maxCool" type="number" value="6" step="0.1"></div>
+                <div><label>Interpretation</label><input disabled value="Larger τ means slower sample response"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <div class="card" style="box-shadow:none; margin-top: 16px;">
+        <div class="cardHeader">
+          <div>
+            <h2>Run + Results</h2>
+            <div class="desc">Runs the pyrolysis model and reports mass-balanced product yields and thermal exposure metrics, with char mass forwarded to Parts 2–4.</div>
+          </div>
+          <div class="pillRow">
+            <div class="pill">Char mass</div>
+            <div class="pill">Peak temperature</div>
+            <div class="pill">Time ≥500/700°C</div>
+          </div>
+        </div>
+        <div class="content">
+          <button id="runBtn">Run Part 1: Pyrolysis</button>
+          <div style="height:12px;"></div>
+          <pre id="output">Ready.</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  
+
+
+<div class="sectionDivider" id="part2">Part 4</div>
+
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 4: Steel Yield</h2>
+        <div class="desc">
+          Generates thermodynamically consistent FactSage Equilib inputs from the regolith settings, beneficiation basis, and pyrolysis carbon source; stores externally computed FactSage results locally; and scales projected steel yield from the closest saved equilibrium run.
+          Link: <a class="inlineLink" href="https://factsage.com/" target="_blank" rel="noopener noreferrer">factsage.com</a>
+        </div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">Generate inputs</div>
+        <div class="pill">Import outputs</div>
+        <div class="pill">Scale yield</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+
+      <details>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Generate FactSage Equilib input list</div>
+            <div class="sumSub">Paste generated input list into FactSage Equilib and run; import FactSage outputs back into the next section of the digital twin.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+        <div class="inner">
+          <div class="grid2">
+            <button id="fs_buildBtn">Generate Equilib Inputs</button>
+            <button id="fs_downloadBtn">Download Input List (.txt)</button>
+          </div>
+          <div class="mini">Includes oxide grams + C(graphite) from char.</div>
+          <textarea id="fs_output" spellcheck="false">Run Part 1 to generate the FactSage input list.</textarea>
+        </div>
+      </details>
+
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Import FactSage Equilib Results</div>
+            <div class="sumSub">Reintegrate FactSage outputs into digital twin.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="grid3" style="margin-top:0;">
+            <div><label>Metal Phase Mass (FactSage) [g]</label><input id="fs_mMetal" type="number" step="0.001" value="0"></div>
+            <div><label>Metal Carbon Content [wt% C]</label><input id="fs_wCmetal" type="number" step="0.01" value="0"></div>
+            <div><label>Slag Mass (FactSage) [g]</label><input id="fs_mSlag" type="number" step="0.001" value="0"></div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div><label>Gas CO [mol] (optional)</label><input id="fs_nCO" type="number" step="0.001" value="0"></div>
+            <div><label>Gas CO₂ [mol] (optional)</label><input id="fs_nCO2" type="number" step="0.001" value="0"></div>
+            <div><label>Unreacted C(graphite) [g] (optional)</label><input id="fs_mCleft" type="number" step="0.001" value="0"></div>
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <button id="fs_saveRunBtn">Save FactSage Run</button>
+            <button id="fs_clearRunsBtn">Delete All Saved Runs</button>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>FactSage Runs</h2>
+                <div class="desc">Serves as the reference equilibrium dataset used for parameter-matched scaling in Parts 2–3.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill" id="runCountPill">0 runs</div>
+                <div class="successPill" id="calibPill">No FactSage data loaded</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="fs_runsList">No saved runs yet.</pre>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+
+      <details open id="steelYield">
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Steel Yield</div>
+            <div class="sumSub">Calculates projected metal yield by parameter-matched scaling of the closest FactSage equilibrium solution.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="grid3" style="margin-top:0;">
+            <div>
+              <label>Measured collected metal mass [g] (optional)</label>
+              <input id="steel_measuredMetal" type="number" value="0" step="0.001" min="0">
+              <div class="mini">Use 0 to rely on imported FactSage-scaled metal mass.</div>
+            </div>
+            <div>
+              <label>Measured metal carbon [wt% C]</label>
+              <input id="steel_targetC" type="number" value="0.8" step="0.01" min="0" max="6.67">
+              <div class="mini">From carbon/sulfur analyzer or equivalent assay.</div>
+            </div>
+            <div>
+              <label>Measured slag carryover in metal [%]</label>
+              <input id="steel_slagCarryover" type="number" value="1.0" step="0.1" min="0" max="100">
+              <div class="mini">Measured by image analysis, mass balance, or metallography.</div>
+            </div>
+          </div>
+
+          <div class="hide">
+            <input id="steel_collectionEff" type="number" value="100">
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <button id="fs_calcSteelBtn">Calculate FactSage-Calibrated Steel Yield</button>
+            <button id="fs_copySteelBtn">Copy Steel Result to Clipboard</button>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>FactSage-Calibrated Steel Result</h2>
+                <div class="desc">Equilibrium result from imported run(s), scaled to current basis.</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="fs_steelOut">Run Part 1, import at least one FactSage run, then calculate.</pre>
+            </div>
+          </div>
+
+        </div>
+      </details>
+    </div>
+  </div>
+
+
+<div class="sectionDivider" id="part3">Part 5</div>
+
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 5: Carbon Deficit</h2>
+        <div class="desc">Carbon in carbothermal reduction is required both to remove oxygen from metal oxides (via CO/CO₂ formation), and to satisfy equilibrium carbon partitioning into metal and slag phases. FactSage assumes this carbon inventory is supplied and therefore cannot determine whether it is achievable from the pyrolysis process.
+This gate compares available process carbon to the equilibrium-implied requirement, indicating nominal or carbon-limited operation.</div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">Closest run</div>
+        <div class="pill">Scale carbon</div>
+        <div class="pill">Deficit flag</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Carbon (Available vs. Required)</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="grid3">
+            <div>
+              <label>Available Carbon from Process [g]</label>
+              <input id="p3_Cavail" disabled value="—">
+            </div>
+            <div>
+              <label>Carbon Multiplier × (from Part 2)</label>
+              <input id="p3_cMult" disabled value="1.00">
+            </div>
+            <div>
+              <label>Regolith Processed [g] (from Part 2)</label>
+              <input id="p3_regolithProcessed" disabled value="1000">
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Measured char fixed carbon [wt%]</label>
+              <input id="p3_marginPct" type="number" value="80" step="0.1" min="0" max="100">
+              <div class="mini">From proximate analysis/ash correction; used as measured available carbon fraction.</div>
+            </div>
+            <div>
+              <label>Measured char ash/inert [wt%]</label>
+              <input id="p3_charUncertaintyPct" type="number" value="5" step="0.1" min="0" max="100">
+              <div class="mini">Measured non-carbon residue in char.</div>
+            </div>
+            <div>
+              <label>Gate basis</label>
+              <input disabled value="Measured carbon availability vs closest saved FactSage requirement">
+            </div>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>Closest Saved Run</h2>
+              </div>
+              <div class="pillRow">
+                <div class="pill" id="p3_closestPill">No run selected</div>
+                <div class="warnPill" id="p3_gatePill">Gate: unknown</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="p3_closestOut">Save at least one FactSage run in Part 2.</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Store C(graphite) input from FactSage Run</div>
+            <div class="sumSub">Enter the graphite mass supplied as a reactant in the corresponding FactSage equilibrium run.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="grid2">
+            <div>
+              <label>C(graphite) from FactSage run [g]</label>
+              <input id="p3_CgraphiteInput" type="number" step="0.000001" value="0">
+            </div>
+            <div>
+              <label>Saved C(graphite) Run</label>
+              <input id="p3_CgraphiteSaved" disabled value="—">
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:14px;">
+            <button id="p3_saveCBtn">Save C(graphite) to Closest Run</button>
+            <button id="p3_clearCBtn">Clear C(graphite) on Closest Run</button>
+          </div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Carbon Deficit Result</div>
+            <div class="sumSub">Computes available carbon, compares it to the scaled equilibrium carbon requirement, prints the deficit/surplus, and labels the outcome as NOMINAL or OFF-NOMINAL.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="centerRow">
+            <button id="p3_calcBtn" class="fullBtn">Calculate Carbon Deficit</button>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>Carbon Deficit Result</h2>
+                <div class="desc">Reportable gate outcome: nominal vs carbon-limited relative to the selected equilibrium run.</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="p3_out">Run Part 1, save a FactSage run in Part 2, store C(graphite), then calculate.</pre>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  
+
+<div class="sectionDivider" id="part4">Part 6</div>
+
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 6: Off-Nominal Scenario 1 — Power Outage</h2>
+        <div class="desc">Applies a transient mid-cycle power outage, resumes the heating program after recovery, and reports outage-adjusted conversion, product masses, and thermal exposure metrics.</div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">Timing</div>
+        <div class="pill">Power loss</div>
+        <div class="pill">Recovery</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Outage inputs</div>
+            <div class="sumSub">Specify outage timing and severity. Computes outage start time from the programmed cycle duration.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+     
+          <div class="eqBox">
+            <div class="eqMath latex" data-display="true"
+              data-latex="\begin{aligned}
+t_{\mathrm{ramp1}} &= 60\,\frac{|T_1-T_0|}{\mathrm{ramp1}} \\[8pt]
+t_{\mathrm{ramp2}} &= 60\,\frac{|T_2-T_1|}{\mathrm{ramp2}} \\[10pt]
+t_{\mathrm{total}} &= t_{\mathrm{ramp1}}+\mathrm{hold1}+t_{\mathrm{ramp2}}+\mathrm{hold2} \\[10pt]
+t_{\mathrm{start}} &= \left(\frac{\%}{100}\right)\,t_{\mathrm{total}}
+\end{aligned}">
+            </div>
+            <div class="eqKey">
+              <div class="eqKeyTitle">Key</div>
+              <div class="eqKeyList">
+                <div><span class="k latex" data-display="false" data-latex="T_0,T_1,T_2"></span>programmed furnace temperatures (°C)</div>
+                <div><span class="k latex" data-display="false" data-latex="\mathrm{ramp1},\mathrm{ramp2}"></span>measured/programmed ramp rates (°C/min)</div>
+                <div><span class="k latex" data-display="false" data-latex="\mathrm{hold1},\mathrm{hold2}"></span>hold durations (s)</div>
+                <div><span class="k latex" data-display="false" data-latex="t_{\mathrm{ramp1}},t_{\mathrm{ramp2}}"></span>ramp durations (s)</div>
+                <div><span class="k latex" data-display="false" data-latex="t_{\mathrm{total}}"></span>planned cycle duration (s)</div>
+                <div><span class="k latex" data-display="false" data-latex="t_{\mathrm{start}}"></span>outage start time (s)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Trigger of Planned Cycle [%]</label>
+              <input id="p4_pctCycle" type="number" value="50" step="1" min="0" max="100">
+              <div class="mini"><strong>Specified:</strong> 50%</div>
+            </div>
+            <div>
+              <label>Planned Cycle Time [s] (auto)</label>
+              <input id="p4_tTotal" disabled value="—">
+              <div class="mini">Computed from ramps + holds.</div>
+            </div>
+            <div>
+              <label>Calculated Outage Start Time [s]</label>
+              <input id="p4_tStartAuto" disabled value="—">
+              <div class="mini">Auto from % when locked.</div>
+            </div>
+          </div>
+
+          <div class="checkRow">
+            <input id="p4_lockToPct" type="checkbox" checked>
+            <div class="checkText">
+              <strong>Lock t_start to % of cycle</strong> (recommended).
+              Disable only for manual t_start tests.
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Outage Start Time [s]</label>
+              <input id="p4_tStart" type="number" value="0" step="1" min="0">
+              <div class="mini">Used only when lock is OFF.</div>
+            </div>
+            <div>
+              <label>Outage Duration [s]</label>
+              <input id="p4_tDur" type="number" value="300" step="1" min="0">
+              <div class="mini"><strong>Specified:</strong> 300 s (5 min)</div>
+            </div>
+            <div>
+              <label>Backup Heating Available During Outage [%]</label>
+              <input id="p4_backupPct" type="number" value="0" step="1" min="0" max="100">
+              <div class="mini"><strong>Specified:</strong> 0% (full loss)</div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Measured cooling rate during outage [°C/min]</label>
+              <input id="p4_coolMult" type="number" value="6.0" step="0.1" min="0">
+              <div class="mini">Measured sample/chamber cooling slope while power is off.</div>
+            </div>
+            <div>
+              <label>Measured recovery delay after power return [s]</label>
+              <input id="p4_recoveryDeratePct" type="number" value="0" step="1" min="0">
+              <div class="mini">Measured delay before normal heating resumes.</div>
+            </div>
+            <div>
+              <label>Thermal model</label>
+              <input id="p4_modeReq" disabled value="Baseline realistic furnace model">
+              <div class="mini">Uses measured timing/cooling inputs.</div>
+            </div>
+          </div>
+
+          <div class="btnRow">
+            <button id="p4_applyNasaBtn">Apply Baseline Outage Case</button>
+            <button id="p4_unlockBtn">Enable Manual Outage Timing</button>
+          </div>
+
+        </div>
+      </details>
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Run Power Outage Pyrolysis Simulation</div>
+            <div class="sumSub">Runs pyrolysis with the outage applied in the thermal model.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+          <div class="centerRow">
+            <button id="p4_runBtn" class="fullBtn">Run Power Outage Simulation</button>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>Part 4 Results — Outage-Adjusted Pyrolysis Outputs</h2>
+                <div class="desc">Reports outage-adjusted conversion, product masses, and thermal exposure metrics, including comparison to the nominal run when available.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill">α</div>
+                <div class="pill">Char</div>
+                <div class="pill">Thermal budget</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="p4_out">Configure outage and run the simulation.</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+  
+
+<div class="sectionDivider" id="part5">Part 7</div>
+
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <h2>Part 7: Off-Nominal Scenario 2 — Air Ingress / Char Oxidation</h2>
+        <div class="desc">
+          Models unintended oxygen ingress that partially oxidizes the produced char during high-temperature exposure.
+          Uses a first-order burnoff model based on time spent above a threshold temperature (default: ≥500°C).
+          Optionally forwards the oxidized char mass to Parts 2–3 for equilibrium scaling and carbon gate checks.
+        </div>
+      </div>
+      <div class="pillRow">
+        <div class="pill">Leak severity</div>
+        <div class="pill">Char loss</div>
+        <div class="pill">Forward to Part 2/3</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <details open>
+        <summary>
+          <div class="sumLeft">
+            <div class="sumTitle">Air ingress inputs</div>
+            <div class="sumSub">Defines a first-order oxidation rate for char when the sample is hot. Requires Part 1 (or Part 4) to be run first.</div>
+          </div>
+          <div class="chev"></div>
+        </summary>
+
+        <div class="inner">
+
+          <div class="eqBox">
+            <div class="eqMath latex" data-display="true"
+              data-latex="\begin{aligned}
+m_{\mathrm{char,ox}} &= m_{\mathrm{char,base}}\;\exp\!\left(-k_{\mathrm{ox}}\,t_{\ge T_\star}\right) \\[10pt]
+\Delta m_{\mathrm{char}} &= m_{\mathrm{char,ox}} - m_{\mathrm{char,base}}
+\end{aligned}">
+            </div>
+            <div class="eqKey">
+              <div class="eqKeyTitle">Key</div>
+              <div class="eqKeyList">
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{char,base}}"></span>baseline char before ingress (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="m_{\mathrm{char,ox}}"></span>char remaining after oxidation (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="\Delta m_{\mathrm{char}}"></span>char mass change/loss (g)</div>
+                <div><span class="k latex" data-display="false" data-latex="k_{\mathrm{ox}}"></span>measured/fitted oxidation rate constant (s⁻¹)</div>
+                <div><span class="k latex" data-display="false" data-latex="t_{\ge T_\star}"></span>measured exposure time above threshold (s)</div>
+                <div><span class="k latex" data-display="false" data-latex="T_\star"></span>oxidation threshold temperature (°C)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Baseline source</label>
+              <div class="selectWrap">
+                <select id="p5_baseSource">
+                  <option value="part1" selected>Use Part 1 nominal run</option>
+                  <option value="part4">Use Part 4 outage run (if available)</option>
+                </select>
+              </div>
+              <div class="mini">Choose which char mass/time-at-temp baseline to oxidize.</div>
+            </div>
+
+            <div>
+              <label>Oxidation threshold T★ [°C]</label>
+              <input id="p5_Tstar" type="number" value="500" step="10">
+              <div class="mini">Uses time ≥ T★ to estimate oxidation exposure.</div>
+            </div>
+
+            <div>
+              <label>Char oxidation rate kₒₓ [s⁻¹]</label>
+              <input id="p5_kox" type="number" value="0.00005" step="0.00001" min="0">
+              <div class="mini">0 disables oxidation. Increase to model stronger ingress.</div>
+            </div>
+          </div>
+
+          <div class="grid3" style="margin-top:14px;">
+            <div>
+              <label>Measured O₂ during ingress [vol%]</label>
+              <input id="p5_o2Pct" type="number" value="1.0" step="0.1" min="0" max="21">
+              <div class="mini">Measured by oxygen sensor/log during the event.</div>
+            </div>
+            <div>
+              <label>Measured ingress duration [s]</label>
+              <input id="p5_leakDurationMult" type="number" value="0" step="1" min="0">
+              <div class="mini">Use 0 to use thermal hot-time exposure instead.</div>
+            </div>
+            <div>
+              <label>Oxidation model basis</label>
+              <input disabled value="measured O₂ × measured/hot exposure">
+            </div>
+          </div>
+
+          <div class="checkRow" style="margin-top:14px;">
+            <input id="p5_forwardChar" type="checkbox">
+            <div class="checkText">
+              <strong>Forward oxidized char mass to Parts 2–3</strong>
+              (when enabled, Part 2 char mass + Part 3 carbon availability use the oxidized value).
+            </div>
+          </div>
+
+          <div class="centerRow">
+            <button id="p5_runBtn" class="fullBtn">Run Air Ingress / Char Oxidation</button>
+          </div>
+
+          <div class="card" style="box-shadow:none; margin-top:14px;">
+            <div class="cardHeader">
+              <div>
+                <h2>Part 5 Results — Oxidized Char</h2>
+                <div class="desc">Reports oxidized char mass and the implied char loss vs. the selected baseline run.</div>
+              </div>
+              <div class="pillRow">
+                <div class="pill" id="p5_statusPill">Not run</div>
+              </div>
+            </div>
+            <div class="content">
+              <pre id="p5_out">Run Part 1 (or Part 4), set kₒₓ, then run this scenario.</pre>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+
+
+</section>
+
+<section id="zotekSection" class="contentSection">
+</section>
+
+</main>
+
+
+<script>
+(() => {
+  const R = 8.314;
+
+//pexpae presets
+const PRESETS = {
+
+  cellulose: {
+    name: "Cotton T-shirt",
+    inertFrac: 0.00,
+    moistPct: 5.0,
+    A1: 5.0e9,
+    Ea1: 190000,
+    Ychar: 0.18,
+    Ycond: 0.30,
+    Ygas:  0.52
+  },
+
+  nitrile: {
+    name: "Nitrile Gloves",
+    inertFrac: 0.00,
+    moistPct: 2.0,
+    A1: 8.0e9,
+    Ea1: 210000,
+    Ychar: 0.22,
+    Ycond: 0.28,
+    Ygas:  0.50
+  },
+
+  polyolefin: {
+    name: "Polyethylene Bag",
+    inertFrac: 0.00,
+    moistPct: 0.0,
+    A1: 3.0e10,
+    Ea1: 240000,
+    Ychar: 0.05,
+    Ycond: 0.35,
+    Ygas:  0.60
+  },
+
+  laminate: {
+    name: "Foil Coffee Pouch",
+    inertFrac: 0.24,
+    moistPct: 3.0,
+    A1: 6.0e9,
+    Ea1: 200000,
+    Ychar: 0.20,
+    Ycond: 0.30,
+    Ygas:  0.50
+  },
+
+  blend: {
+    name: "Mixed organic feedstock blend",
+    inertFrac: 0.0,
+    moistPct: 0.0,
+    A1: 5.0e9,
+    Ea1: 190000,
+    Ychar: 0.18,
+    Ycond: 0.30,
+    Ygas:  0.52
+  },
+
+  custom: {
+    name: "Custom feedstock",
+    inertFrac: 0.0,
+    moistPct: 0.0,
+    A1: 5.0e9,
+    Ea1: 190000,
+    Ychar: 0.18,
+    Ycond: 0.30,
+    Ygas:  0.52
+  }
+};
+
+
+  // Part 1 furnace nameplate constraints
+  const P_MAX_W = 4000;
+  const T_OP_MAX_C = 1600;
+  const T_DESIGN_C = 1700;
+
+  const clamp = (x, lo, hi) => Math.min(Math.max(x, lo), hi);
+  const roundToStep = (x, step) => step <= 0 ? x : Math.round(x / step) * step;
+
+    // Part 2 regolith simulant oxide presets (wt%)
+  // These MUST sum to ~100 (we’ll auto-normalize if they don’t).
+const SIMULANT_OXIDES = {
+
+  // Generic basaltic regolith (mare-like, FeO*)
+  generic: {
+    SiO2: 47.20,
+    Al2O3: 16.70,
+    FeO:  6.20,
+    Fe2O3: 0.00,
+    MgO:  6.50,
+    CaO:  9.20,
+    TiO2: 2.30,
+    Na2O: 3.50,
+    K2O:  1.10,
+    MnO:  0.00,
+    P2O5: 0.00,
+    Cr2O3: 0.00
+  },
+
+  // JSC-1A (NASA basaltic ash simulant, FeO* normalized, LOI removed)
+  jsc1a: {
+    SiO2: 43.46,
+    Al2O3: 14.70,
+    FeO:  18.08,   // FeO* (FeO + Fe2O3 converted)
+    Fe2O3: 0.00,
+    MgO:  8.74,
+    CaO:  9.22,
+    TiO2: 1.59,
+    Na2O: 2.64,
+    K2O:  0.73,
+    MnO:  0.18,
+    P2O5: 0.66,
+    Cr2O3: 0.00
+  },
+
+  // LHS-1 (Lunar Highlands Simulant, anorthositic)
+  lhs1: {
+    SiO2: 49.75,
+    Al2O3: 26.63,
+    FeO:  3.24,
+    Fe2O3: 0.00,
+    MgO:  2.90,
+    CaO:  13.69,
+    TiO2: 0.64,
+    Na2O: 2.58,
+    K2O:  0.34,
+    MnO:  0.06,
+    P2O5: 0.17,
+    Cr2O3: 0.00
+  },
+
+  // NU-LHT-2M (NASA highlands simulant, crystalline + agglutinate)
+  nulht2m: {
+    SiO2: 48.14,
+    Al2O3: 22.26,
+    FeO:  5.25,
+    Fe2O3: 0.00,
+    MgO:  9.81,
+    CaO:  13.02,
+    TiO2: 0.12,
+    Na2O: 1.00,
+    K2O:  0.12,
+    MnO:  0.09,
+    P2O5: 0.07,
+    Cr2O3: 0.12
+  },
+
+  // User-defined chemistry
+  custom: null
+};
+
+
+
+
+  const pyroState = { ran:false, feedstockName:"", mChar:0, mDry:0, alpha:0, mCond:0, mGas:0 };
+  const outageState = { ran:false, mChar:0, alpha:0, mCond:0, mGas:0, Tpeak:NaN, t500:NaN, t700:NaN };
+  const airLeakState = { ran:false, use:false, baseSource:"part1", Tstar:500, kox:0, mCharOx:NaN, dChar:NaN, tHot:NaN };
+  const benefState = { ran:false, use:false, stream:"magnetic", mFeed:NaN, mConc:NaN, mNonMagBin:NaN, feFeedPct:NaN, feConcPct:NaN, nonMagMagPct:NaN, feRichMass:NaN, mMagRemaining:NaN, mGangueEntrained:NaN, mGangueRejected:NaN, upgrade:NaN };
+  const fmt = (x, d=6) => Number.isFinite(x) ? x.toFixed(d) : String(x);
+
+  const LS_KEY = "digitwinpyro_factsage_runs_v1";
+  function loadRuns(){
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch { return []; }
+  }
+  function saveRuns(runs){
+    localStorage.setItem(LS_KEY, JSON.stringify(runs));
+  }
+
+  function runKey(obj){
+    return [
+      obj.simulantKey, obj.Tc, obj.Pbar, obj.regolithBasis, obj.cMult,
+      obj.oxHash || "ox?", obj.note || ""
+    ].join("|");
+  }
+  function hashOx(ox){
+    const keys = Object.keys(ox).sort();
+    return keys.map(k => `${k}=${Number(ox[k]).toFixed(3)}`).join(";");
+  }
+  function closestRun(runs, query){
+    const same = runs.filter(r => r.simulantKey === query.simulantKey);
+    if (!same.length) return null;
+
+    let best = null;
+    let bestD = Infinity;
+
+    for (const r of same){
+      const dT = (Number(r.Tc) - query.Tc) / 100.0;
+      const dP = (Number(r.Pbar) - query.Pbar) / 1.0;
+      const dR = (Number(r.regolithBasis) - query.regolithBasis) / 1000.0;
+      const dC = (Number(r.cMult) - query.cMult) / 1.0;
+      const D = (dT*dT) + (dP*dP) + (dR*dR) + (4*dC*dC);
+      if (D < bestD){
+        bestD = D;
+        best = r;
+      }
+    }
+    return best;
+  }
+
+  function renderRunsList(runs, el){
+    if (!runs.length){
+      el.textContent = "No saved runs yet.";
+      return;
+    }
+    const sorted = [...runs].sort((a,b) => (b.savedAt||0) - (a.savedAt||0));
+    const lines = [];
+    for (const r of sorted.slice(0, 30)){
+      const cIn = (r.mCinput_g == null) ? "—" : Number(r.mCinput_g).toFixed(6);
+      lines.push(
+`• ${r.simulantName} | T=${r.Tc}°C | P=${r.Pbar} bar | basis=${r.regolithBasis} g | c×=${r.cMult}
+  metal=${r.mMetal_g} g | metal C=${r.wCmetal_wt} wt% | slag=${r.mSlag_g} g | CO=${r.nCO_mol} mol | CO2=${r.nCO2_mol} mol | C_left=${r.mCleft_g} g | C_in=${cIn} g
+  saved: ${new Date(r.savedAt).toLocaleString()}`
+      );
+    }
+    if (runs.length > 30) lines.push(`\n(Showing 30 most recent of ${runs.length} runs.)`);
+    el.textContent = lines.join("\n");
+  }
+
+  function buildRecipeText(opts){
+    const { simulantName, basisReg, charMass, fC, cMult, Tc, Pbar, atmosphere, vacuumPa, ox, oxSum } = opts;
+
+    const mC_graphite = charMass * fC * cMult;
+    const g = {};
+    Object.keys(ox).forEach(k => { g[k] = (ox[k]/100.0)*basisReg; });
+
+    const lines = [];
+    lines.push("FACTSAGE EQUILIB INPUT LIST (copy/paste reference)");
+    lines.push("============================================================");
+    lines.push(`Simulant: ${simulantName}`);
+    lines.push(`Regolith basis mass: ${basisReg.toFixed(3)} g`);
+    lines.push("");
+    lines.push("Carbon input derived from Part 1/4 char:");
+    lines.push(`  Char mass: ${charMass.toFixed(6)} g`);
+    lines.push(`  Char carbon fraction f_C,char: ${fC.toFixed(3)}`);
+    lines.push(`  Carbon multiplier (sweep): x${cMult.toFixed(3)}`);
+    lines.push(`  Add as C(graphite): ${mC_graphite.toFixed(6)} g`);
+    lines.push("");
+    lines.push("Equilib conditions:");
+    lines.push(`  Temperature: ${Tc.toFixed(1)} °C`);
+    lines.push(`  Pressure:    ${Pbar.toFixed(3)} bar`);
+    lines.push(`  Atmosphere:  ${atmosphere === "vacuum" ? `Vacuum (${Number(vacuumPa).toFixed(0)} Pa)` : atmosphere}`);
+    lines.push("");
+    lines.push(`Oxide wt% sum (listed): ${oxSum.toFixed(2)} wt%`);
+    if (Math.abs(oxSum - 100) > 0.001) lines.push("WARNING: oxide wt% sum is not 100.00. Add missing oxides or renormalize your composition.");
+    lines.push("");
+    lines.push("REACTANTS TO ENTER (grams):");
+    for (const [k,v] of Object.entries(g)){
+      lines.push(`  ${k.padEnd(6)} : ${v.toFixed(6)} g`);
+    }
+    lines.push(`  C(graphite): ${mC_graphite.toFixed(6)} g`);
+    lines.push("");
+    lines.push("PHASE SELECTION SUGGESTION:");
+    lines.push("  - Gas: ON");
+    lines.push("  - Oxide solutions (FToxid): ON");
+    lines.push("  - Metal/steel solution (FSstel or similar): ON");
+    lines.push("");
+    lines.push("WHAT TO EXPORT BACK INTO THIS PAGE:");
+    lines.push("  - metal phase mass (g)");
+    lines.push("  - metal wt% C");
+    lines.push("  - slag mass (g) (optional)");
+    lines.push("  - gas CO/CO2 (mol) (optional)");
+    lines.push("  - unreacted graphite (g) (optional)");
+    lines.push("============================================================");
+    return lines.join("\n");
+  }
+
+  function renderAllLatex(){
+    if (!window.katex) return;
+    document.querySelectorAll(".latex").forEach(el => {
+      const tex = el.getAttribute("data-latex") || "";
+      const display = (el.getAttribute("data-display") || "false") === "true";
+      try{
+        katex.render(tex, el, { displayMode: display, throwOnError: false, strict: "ignore" });
+      } catch(e){
+        el.textContent = tex;
+      }
+    });
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    renderAllLatex();
+
+    // ---------- Part 1 DOM ----------
+    const materialPreset = document.getElementById("materialPreset");
+    const wetMass = document.getElementById("wetMass");
+    const massSummary = document.getElementById("massSummary");
+
+    const customPresetBlock = document.getElementById("customPresetBlock");
+    const customMoistPct = document.getElementById("customMoistPct");
+    const customInertFrac = document.getElementById("customInertFrac");
+    const customAutoNormalize = document.getElementById("customAutoNormalize");
+
+    const blendPresetBlock = document.getElementById("blendPresetBlock");
+    const blend_celluloseMass = document.getElementById("blend_celluloseMass");
+    const blend_nitrileMass = document.getElementById("blend_nitrileMass");
+    const blend_polyolefinMass = document.getElementById("blend_polyolefinMass");
+    const blend_laminateMass = document.getElementById("blend_laminateMass");
+
+    const A1input    = document.getElementById("A1");
+    const Ea1input   = document.getElementById("Ea1");
+    const massInput  = document.getElementById("mass");
+    const dtInput    = document.getElementById("dt");
+
+    const yCharInput = document.getElementById("yChar");
+    const yCondInput = document.getElementById("yCond");
+    const yGasInput  = document.getElementById("yGas");
+    const yieldSum   = document.getElementById("yieldSum");
+
+    const T0input    = document.getElementById("T0");
+    const T1input    = document.getElementById("T1");
+    const ramp1Input = document.getElementById("ramp1");
+    const hold1Input = document.getElementById("hold1");
+    const T2input    = document.getElementById("T2");
+    const ramp2Input = document.getElementById("ramp2");
+    const hold2Input = document.getElementById("hold2");
+
+    const modeInput  = document.getElementById("mode");
+    const furnaceBlock = document.getElementById("furnaceBlock");
+    const atmosphereInput = document.getElementById("atmosphere");
+    const vacuumPaWrap = document.getElementById("vacuumPaWrap");
+    const vacuumPaInput = document.getElementById("vacuumPa");
+    const atmosphereSummary = document.getElementById("atmosphereSummary");
+
+    const ctrlStepInput   = document.getElementById("ctrlStep");
+    const ctrlUpdateInput = document.getElementById("ctrlUpdate");
+    const CfurnInput      = document.getElementById("Cfurn");
+    const CloadInput      = document.getElementById("Cload");
+    const tauChamInput    = document.getElementById("tauCham");
+    const tauSampInput    = document.getElementById("tauSamp");
+    const maxCoolInput    = document.getElementById("maxCool");
+
+    const runBtn   = document.getElementById("runBtn");
+    const output   = document.getElementById("output");
+
+    // ---------- Part 2 DOM ----------
+    const simulantPreset = document.getElementById("simulantPreset");
+    const mb_regolithMass = document.getElementById("mb_regolithMass");
+    const mb_strength = document.getElementById("mb_strength");
+    const mb_feFeedPct = document.getElementById("mb_feFeedPct");
+    const mb_magRecoveryPct = document.getElementById("mb_magRecoveryPct");
+    const mb_feRecoveryPct = document.getElementById("mb_feRecoveryPct");
+    const mb_ganguePct = document.getElementById("mb_ganguePct");
+    const mb_sepEff = document.getElementById("mb_sepEff");
+    const mb_surfaceFieldT = document.getElementById("mb_surfaceFieldT");
+    const mb_gapMm = document.getElementById("mb_gapMm");
+    const mb_d50um = document.getElementById("mb_d50um");
+    const mb_beltSpeed = document.getElementById("mb_beltSpeed");
+    const mb_wrapDeg = document.getElementById("mb_wrapDeg");
+    const mb_passes = document.getElementById("mb_passes");
+    const mb_forwardToP2 = document.getElementById("mb_forwardToP2");
+    const mb_streamForTests = document.getElementById("mb_streamForTests");
+    const mb_runBtn = document.getElementById("mb_runBtn");
+    const mb_out = document.getElementById("mb_out");
+
+    const p2_charMass = document.getElementById("p2_charMass");
+    const p2_regolithBasis = document.getElementById("p2_regolithBasis");
+    const p2_fCchar = document.getElementById("p2_fCchar");
+    const p2_cMult = document.getElementById("p2_cMult");
+    const p2_Tc = document.getElementById("p2_Tc");
+    const p2_Pbar = document.getElementById("p2_Pbar");
+    const p2_loiPct = document.getElementById("p2_loiPct");
+    const p2_feTreatment = document.getElementById("p2_feTreatment");
+    const reg_magPhasePct = document.getElementById("reg_magPhasePct");
+    const reg_d50um = document.getElementById("reg_d50um");
+    const reg_surfaceFieldT = document.getElementById("reg_surfaceFieldT");
+    const reg_gapMm = document.getElementById("reg_gapMm");
+
+    const ox_SiO2 = document.getElementById("ox_SiO2");
+    const ox_Al2O3 = document.getElementById("ox_Al2O3");
+    const ox_FeO = document.getElementById("ox_FeO");
+    const ox_Fe2O3 = document.getElementById("ox_Fe2O3");
+    const ox_CaO = document.getElementById("ox_CaO");
+    const ox_MgO = document.getElementById("ox_MgO");
+    const ox_TiO2 = document.getElementById("ox_TiO2");
+    const ox_Na2O = document.getElementById("ox_Na2O");
+    const ox_K2O = document.getElementById("ox_K2O");
+    const ox_MnO = document.getElementById("ox_MnO");
+    const ox_P2O5 = document.getElementById("ox_P2O5");
+    const ox_Cr2O3 = document.getElementById("ox_Cr2O3");
+    const ox_sum = document.getElementById("ox_sum");
+    const ox_notes = document.getElementById("ox_notes");
+    const reg_calcMagBtn = document.getElementById("reg_calcMagBtn");
+    const reg_magOut = document.getElementById("reg_magOut");
+
+    const fs_buildBtn = document.getElementById("fs_buildBtn");
+    const fs_downloadBtn = document.getElementById("fs_downloadBtn");
+    const fs_output = document.getElementById("fs_output");
+
+    const fs_mMetal = document.getElementById("fs_mMetal");
+    const fs_wCmetal = document.getElementById("fs_wCmetal");
+    const fs_mSlag = document.getElementById("fs_mSlag");
+    const fs_nCO = document.getElementById("fs_nCO");
+    const fs_nCO2 = document.getElementById("fs_nCO2");
+    const fs_mCleft = document.getElementById("fs_mCleft");
+
+    const fs_saveRunBtn = document.getElementById("fs_saveRunBtn");
+    const fs_clearRunsBtn = document.getElementById("fs_clearRunsBtn");
+    const fs_runsList = document.getElementById("fs_runsList");
+    const runCountPill = document.getElementById("runCountPill");
+    const calibPill = document.getElementById("calibPill");
+
+    const fs_calcSteelBtn = document.getElementById("fs_calcSteelBtn");
+    const fs_copySteelBtn = document.getElementById("fs_copySteelBtn");
+    const fs_steelOut = document.getElementById("fs_steelOut");
+    const steel_measuredMetal = document.getElementById("steel_measuredMetal");
+    const steel_targetC = document.getElementById("steel_targetC");
+    const steel_collectionEff = document.getElementById("steel_collectionEff");
+    const steel_slagCarryover = document.getElementById("steel_slagCarryover");
+
+    // ---------- Part 3 DOM ----------
+    const p3_closestPill = document.getElementById("p3_closestPill");
+    const p3_gatePill = document.getElementById("p3_gatePill");
+    const p3_closestOut = document.getElementById("p3_closestOut");
+    const p3_cMult = document.getElementById("p3_cMult");
+    const p3_regolithProcessed = document.getElementById("p3_regolithProcessed");
+    const p3_Cavail = document.getElementById("p3_Cavail");
+    const p3_CgraphiteInput = document.getElementById("p3_CgraphiteInput");
+    const p3_CgraphiteSaved = document.getElementById("p3_CgraphiteSaved");
+    const p3_saveCBtn = document.getElementById("p3_saveCBtn");
+    const p3_clearCBtn = document.getElementById("p3_clearCBtn");
+    const p3_calcBtn = document.getElementById("p3_calcBtn");
+    const p3_out = document.getElementById("p3_out");
+    const p3_marginPct = document.getElementById("p3_marginPct");
+    const p3_charUncertaintyPct = document.getElementById("p3_charUncertaintyPct");
+
+    // ---------- Part 4 DOM ----------
+    const p4_pctCycle = document.getElementById("p4_pctCycle");
+    const p4_tTotal = document.getElementById("p4_tTotal");
+    const p4_tStartAuto = document.getElementById("p4_tStartAuto");
+    const p4_lockToPct = document.getElementById("p4_lockToPct");
+    const p4_tStart = document.getElementById("p4_tStart");
+    const p4_tDur = document.getElementById("p4_tDur");
+    const p4_backupPct = document.getElementById("p4_backupPct");
+    const p4_coolMult = document.getElementById("p4_coolMult");
+    const p4_recoveryDeratePct = document.getElementById("p4_recoveryDeratePct");
+    const p4_applyNasaBtn = document.getElementById("p4_applyNasaBtn");
+    const p4_unlockBtn = document.getElementById("p4_unlockBtn");
+    const p4_runBtn = document.getElementById("p4_runBtn");
+    const p4_out = document.getElementById("p4_out");
+    
+        // ---------- Part 5 DOM ----------
+    const p5_baseSource = document.getElementById("p5_baseSource");
+    const p5_Tstar = document.getElementById("p5_Tstar");
+    const p5_kox = document.getElementById("p5_kox");
+    const p5_o2Pct = document.getElementById("p5_o2Pct");
+    const p5_leakDurationMult = document.getElementById("p5_leakDurationMult");
+    const p5_forwardChar = document.getElementById("p5_forwardChar");
+    const p5_runBtn = document.getElementById("p5_runBtn");
+    const p5_out = document.getElementById("p5_out");
+    const p5_statusPill = document.getElementById("p5_statusPill");
+
+    // ---------- Zotek DOM removed: section intentionally empty ----------
+    const p6_mass = null;
+    const p6_temp = null;
+    const p6_hold = null;
+    const p6_press = null;
+    const p6_route = null;
+    const p6_zotekStatus = null;
+    const p6_zotekNotes = null;
+    const p6_runBtn = null;
+    const p6_zotekOut = null;
+
+    function getBaselineForAirIngress(){
+      const src = p5_baseSource.value;
+
+      // Prefer requested source if available; otherwise fall back gracefully.
+      if (src === "part4" && outageState.ran){
+        return {
+          label: "Part 4 outage",
+          mChar: outageState.mChar,
+          t500: outageState.t500,
+          t700: outageState.t700,
+          Tpeak: outageState.Tpeak
+        };
+      }
+      if (pyroState.ran){
+        // We don't store nominal t500/t700 in pyroState, but we can re-run a quick nominal sim to recover thermal metrics.
+        // To keep existing behavior unchanged, we reuse the same model inputs and simulate once to get t500/t700.
+        const opts = getInputsForRun();
+        const res = simulatePyrolysisWithThermal(opts, null);
+        return {
+          label: "Part 1 nominal",
+          mChar: pyroState.mChar,
+          t500: res.t500,
+          t700: res.t700,
+          Tpeak: res.Tpeak
+        };
+      }
+      return null;
+    }
+
+    function hotTimeFromThreshold(Tstar, baseline){
+      // We only have t500 and t700 as robust exposure metrics.
+      // If user chooses T★ between 500 and 700, linearly interpolate between the two times.
+      // If below 500: treat as t500 (conservative; oxidation would be greater in reality).
+      // If above 700: treat as t700 (conservative; oxidation would be smaller in reality).
+      const t500 = Number(baseline.t500);
+      const t700 = Number(baseline.t700);
+
+      if (!Number.isFinite(t500) || !Number.isFinite(t700)) return NaN;
+
+      if (Tstar <= 500) return t500;
+      if (Tstar >= 700) return t700;
+
+      const f = (Tstar - 500) / 200.0; // 500->700
+      return (1 - f)*t500 + f*t700;
+    }
+
+    function runAirIngress(){
+      p5_out.textContent = "Running air ingress model…";
+      try{
+        const baseline = getBaselineForAirIngress();
+        if (!baseline){
+          p5_out.textContent = "ERROR: Run Part 1 (or Part 4) first so baseline char + thermal exposure exist.";
+          airLeakState.ran = false;
+          airLeakState.use = false;
+          p5_statusPill.textContent = "Not run";
+          refreshCharToPart2();
+          refreshPart3GatePreview();
+          return;
+        }
+
+        const Tstar = Number(p5_Tstar.value);
+        const kox = Number(p5_kox.value);
+        const o2Pct = Number(p5_o2Pct ? p5_o2Pct.value : 21);
+        const measuredIngressSec = Number(p5_leakDurationMult ? p5_leakDurationMult.value : 0);
+
+        if (!Number.isFinite(Tstar)) throw new Error("T★ must be a number.");
+        if (!(kox >= 0)) throw new Error("kₒₓ must be ≥ 0.");
+        if (!(o2Pct >= 0 && o2Pct <= 21)) throw new Error("O₂ ingress concentration must be between 0 and 21 vol%.");
+        if (!(measuredIngressSec >= 0)) throw new Error("Measured ingress duration must be ≥ 0.");
+
+        const tHotBase = hotTimeFromThreshold(Tstar, baseline);
+        const exposureBase = measuredIngressSec > 0 ? measuredIngressSec : tHotBase;
+        const tHot = exposureBase * (o2Pct / 21.0);
+        if (!Number.isFinite(tHot)){
+          throw new Error("Could not compute time-at-temperature. Check that Part 1/4 produced thermal metrics.");
+        }
+
+        const mBase = Number(baseline.mChar);
+        if (!(mBase >= 0)) throw new Error("Baseline char mass invalid.");
+
+        const mOx = mBase * Math.exp(-kox * tHot);
+        const dChar = mOx - mBase;
+
+        airLeakState.ran = true;
+        airLeakState.use = Boolean(p5_forwardChar.checked);
+        airLeakState.baseSource = p5_baseSource.value;
+        airLeakState.Tstar = Tstar;
+        airLeakState.kox = kox;
+        airLeakState.mCharOx = mOx;
+        airLeakState.dChar = dChar;
+        airLeakState.tHot = tHot;
+
+        p5_statusPill.textContent = airLeakState.use ? "Ran (forwarding char)" : "Ran (not forwarding)";
+
+        p5_out.textContent =
+        
+`================ AIR INGRESS / CHAR OXIDATION ================
+Baseline source:        ${baseline.label}
+Baseline char [g]:      ${mBase.toFixed(6)}
+Threshold T★ [°C]:      ${Tstar.toFixed(0)}
+Hot exposure base t≥T★ [s]: ${Math.round(tHotBase)}
+O₂ ingress concentration [vol%]: ${o2Pct.toFixed(2)}
+Measured ingress duration [s]: ${measuredIngressSec.toFixed(0)}
+Exposure basis [s]: ${Math.round(exposureBase)}
+Effective oxidation exposure [s]: ${Math.round(tHot)}
+Oxidation rate kₒₓ [1/s]: ${kox.toExponential(3)}
+
+Oxidized char [g]:      ${mOx.toFixed(6)}
+Δchar [g]:              ${dChar.toFixed(6)}   (negative = loss)
+
+Forward to Parts 2–3:   ${airLeakState.use ? "YES" : "NO"}
+==============================================================`;
+
+        // Update downstream displays (Part 2 char + Part 3 carbon gate) if forwarding enabled
+        refreshCharToPart2();
+        refreshPart3GatePreview();
+
+      } catch(e){
+        p5_out.textContent = `ERROR: ${e.message}`;
+        console.error(e);
+        airLeakState.ran = false;
+        airLeakState.use = false;
+        p5_statusPill.textContent = "Not run";
+        refreshCharToPart2();
+        refreshPart3GatePreview();
+      }
+    }
+
+    function updateYieldSum(){
+      const sum = Number(yCharInput.value) + Number(yCondInput.value) + Number(yGasInput.value);
+      yieldSum.value = Number.isFinite(sum) ? sum.toFixed(6) : "NaN";
+      return sum;
+    }
+
+    function toggleFurnaceUI(){
+      furnaceBlock.classList.remove("hide");
+      if (modeInput) modeInput.value = "realistic";
+    }
+
+    function updateAtmosphereUI(){
+      const atm = atmosphereInput ? atmosphereInput.value : "Ar";
+      const isVac = atm === "vacuum";
+      if (vacuumPaWrap) vacuumPaWrap.classList.toggle("hide", !isVac);
+      if (vacuumPaInput) vacuumPaInput.disabled = !isVac;
+
+      let summary = `${atm === "N2" ? "N₂" : atm} selected`;
+      if (isVac){
+        const pa = Number(vacuumPaInput.value);
+        summary = Number.isFinite(pa) ? `Vacuum selected | ${pa.toFixed(0)} Pa` : "Vacuum selected";
+      }
+      if (atmosphereSummary) atmosphereSummary.value = summary;
+    }
+
+    function componentDryMass(presetKey, wetMassValue){
+      const p = PRESETS[presetKey];
+      const mWet = Number(wetMassValue || 0);
+      if (!(mWet >= 0)) throw new Error(`${p.name} blend mass must be >= 0 g.`);
+      const inert = clamp(Number(p.inertFrac || 0), 0, 0.99);
+      const moist = clamp(Number(p.moistPct || 0) / 100.0, 0, 0.99);
+      const mReactive = (1 - inert) * mWet;
+      const mDry = (1 - moist) * mReactive;
+      return { key:presetKey, name:p.name, mWet, inert, moist, mReactive, mDry, preset:p };
+    }
+
+    function computeBlendFeedstock(){
+      const components = [
+        componentDryMass("cellulose", blend_celluloseMass ? blend_celluloseMass.value : 0),
+        componentDryMass("nitrile", blend_nitrileMass ? blend_nitrileMass.value : 0),
+        componentDryMass("polyolefin", blend_polyolefinMass ? blend_polyolefinMass.value : 0),
+        componentDryMass("laminate", blend_laminateMass ? blend_laminateMass.value : 0)
+      ];
+
+      const totalWet = components.reduce((a,c)=>a+c.mWet, 0);
+      const totalReactive = components.reduce((a,c)=>a+c.mReactive, 0);
+      const totalDry = components.reduce((a,c)=>a+c.mDry, 0);
+
+      if (!(totalWet > 0)) throw new Error("At least one mixed feedstock mass must be > 0 g.");
+      if (!(totalDry > 0)) throw new Error("Mixed dry reactive mass must be > 0 g.");
+
+      const wAvg = (field) => components.reduce((a,c)=>a + c.mDry * Number(c.preset[field]), 0) / totalDry;
+
+      const blendA1 = wAvg("A1");
+      const blendEa1 = wAvg("Ea1");
+      const blendYchar = wAvg("Ychar");
+      const blendYcond = wAvg("Ycond");
+      const blendYgas = wAvg("Ygas");
+
+      return { components, totalWet, totalReactive, totalDry, blendA1, blendEa1, blendYchar, blendYcond, blendYgas };
+    }
+
+    function computeDryReactiveMass(key){
+      if (key === "blend"){
+        try{
+          const blend = computeBlendFeedstock();
+
+          A1input.value = blend.blendA1.toExponential(6);
+          Ea1input.value = blend.blendEa1.toFixed(0);
+          yCharInput.value = blend.blendYchar.toFixed(6);
+          yCondInput.value = blend.blendYcond.toFixed(6);
+          yGasInput.value  = blend.blendYgas.toFixed(6);
+          massInput.value = String(blend.totalDry);
+          massInput.disabled = true;
+          updateYieldSum();
+
+          const lines = [];
+          lines.push("Preset: Mixed organic feedstock blend");
+          lines.push(`Total as-received mixed mass:     ${blend.totalWet.toFixed(3)} g`);
+          lines.push(`Total wet reactive mass:          ${blend.totalReactive.toFixed(3)} g`);
+          lines.push(`Total dry reactive mass used:     ${blend.totalDry.toFixed(3)} g`);
+          lines.push("");
+          lines.push("Component mass balance:");
+          for (const c of blend.components){
+            if (c.mWet <= 0) continue;
+            const fracDry = 100.0 * c.mDry / blend.totalDry;
+            lines.push(`  ${c.name}`);
+            lines.push(`    as-received: ${c.mWet.toFixed(3)} g | dry reactive: ${c.mDry.toFixed(3)} g | dry-basis share: ${fracDry.toFixed(2)} wt%`);
+          }
+          lines.push("");
+          lines.push("Blended pyrolysis parameters (dry-reactive-mass weighted):");
+          lines.push(`  A1 [s^-1]:        ${blend.blendA1.toExponential(6)}`);
+          lines.push(`  Ea [J/mol]:       ${blend.blendEa1.toFixed(0)}`);
+          lines.push(`  Char yield [-]:   ${blend.blendYchar.toFixed(6)}`);
+          lines.push(`  Cond. yield [-]:  ${blend.blendYcond.toFixed(6)}`);
+          lines.push(`  Gas yield [-]:    ${blend.blendYgas.toFixed(6)}`);
+          massSummary.textContent = lines.join("\n");
+        } catch(e){
+          massSummary.textContent = `ERROR: ${e.message}`;
+        }
+        return;
+      }
+
+      const mWet = Number(wetMass.value);
+      if (!(mWet > 0)){
+        massSummary.textContent = "Wet input mass must be > 0.";
+        return;
+      }
+
+      if (key === "custom"){
+        const inert = clamp(Number(customInertFrac.value || 0), 0, 0.99);
+        const moist = clamp(Number(customMoistPct.value || 0) / 100.0, 0, 0.99);
+
+        const mReactive = (1 - inert) * mWet;
+        const mDry = (1 - moist) * mReactive;
+
+        const mInertRemoved = mWet - mReactive;
+        const mMoistRemoved = mReactive - mDry;
+
+        if (customAutoNormalize.value === "yes"){
+          massInput.value = String(mDry);
+          massInput.disabled = true;
+        } else {
+          massInput.disabled = false;
+        }
+
+        massSummary.textContent =
+`Preset: Custom (manual inputs)
+Wet input mass:               ${mWet.toFixed(3)} g
+Inert fraction removed:       ${inert.toFixed(3)} (removed mass: ${mInertRemoved.toFixed(3)} g)
+Moisture (reactive basis):    ${(moist*100).toFixed(2)} wt% (removed mass: ${mMoistRemoved.toFixed(3)} g)
+Dry reactive mass used:       ${Number(massInput.value).toFixed(3)} g`;
+        return;
+      }
+
+      const p = PRESETS[key];
+      const inert = p.inertFrac;
+      const moist = p.moistPct / 100.0;
+
+      const mReactive = (1 - inert) * mWet;
+      const mDry = (1 - moist) * mReactive;
+      const mInertRemoved = mWet - mReactive;
+      const mMoistRemoved = mReactive - mDry;
+
+      massInput.value = String(mDry);
+      massInput.disabled = false;
+
+      massSummary.textContent =
+`Preset: ${p.name}
+Wet input mass:               ${mWet.toFixed(3)} g
+Inert fraction removed:       ${p.inertFrac}  (removed mass: ${mInertRemoved.toFixed(3)} g)
+Moisture (reactive basis):    ${p.moistPct} wt% (removed mass: ${mMoistRemoved.toFixed(3)} g)
+Dry reactive mass used:       ${mDry.toFixed(3)} g`;
+    }
+
+function applyPreset(){
+  const key = materialPreset.value;
+  const isCustom = (key === "custom");
+  const isBlend = (key === "blend");
+
+  customPresetBlock.classList.toggle("hide", !isCustom);
+  if (blendPresetBlock) blendPresetBlock.classList.toggle("hide", !isBlend);
+
+  if (isBlend){
+    wetMass.disabled = true;
+    massInput.disabled = true;
+    computeDryReactiveMass("blend");
+    return;
+  }
+
+  wetMass.disabled = false;
+  const p = PRESETS[key];
+
+  if (!isCustom){
+    // ALWAYS overwrite for defined presets
+    A1input.value = p.A1;
+    Ea1input.value = p.Ea1;
+    yCharInput.value = p.Ychar;
+    yCondInput.value = p.Ycond;
+    yGasInput.value  = p.Ygas;
+  } else {
+    // Custom: leave user edits alone
+    massInput.disabled = (customAutoNormalize.value === "yes");
+  }
+
+  updateYieldSum();
+  computeDryReactiveMass(key);
+}
+
+function getEffectiveCharMass(){
+  // Part 5 can optionally override the char used downstream
+  if (airLeakState.ran && airLeakState.use && Number.isFinite(airLeakState.mCharOx)) return airLeakState.mCharOx;
+
+  // Default behavior unchanged
+  if (pyroState.ran) return pyroState.mChar;
+  return NaN;
+}
+
+    function getSelectedBeneficiationStream(){
+      const mode = mb_streamForTests ? mb_streamForTests.value : "magnetic";
+      if (!benefState.ran || !benefState.use || mode === "manual") return null;
+      if (mode === "nonmagnetic"){
+        return {
+          key: "nonmagnetic",
+          label: "Non-magnetic-bin reject/tailings",
+          mass: benefState.mNonMagBin,
+          magneticMass: benefState.mMagRemaining,
+          gangueMass: benefState.mGangueRejected,
+          magneticPct: benefState.nonMagMagPct
+        };
+      }
+      return {
+        key: "magnetic",
+        label: "Magnetic-bin concentrate",
+        mass: benefState.mConc,
+        magneticMass: benefState.feRichMass,
+        gangueMass: benefState.mGangueEntrained,
+        magneticPct: benefState.feConcPct
+      };
+    }
+
+    function getEffectiveRegolithBasis(){
+      const stream = getSelectedBeneficiationStream();
+      if (stream && Number.isFinite(stream.mass)) return stream.mass;
+      return Number(p2_regolithBasis.value);
+    }
+
+    function syncBeneficiationToPart2(){
+      if (!(mb_regolithMass && p2_regolithBasis)) return;
+      const stream = getSelectedBeneficiationStream();
+      if (stream && Number.isFinite(stream.mass)) {
+        p2_regolithBasis.value = stream.mass.toFixed(3);
+      } else if (!benefState.ran || (mb_streamForTests && mb_streamForTests.value === "manual")) {
+        p2_regolithBasis.value = Number(mb_regolithMass.value || 0).toFixed(3);
+      }
+    }
+
+    function applyMagneticPreset(){
+      // Fixed separator basis: NdFeB N52 permanent magnet.
+      // Recovery is calculated in runMagneticBeneficiation from field, gap, particle size,
+      // liberation efficiency, pass count, and magnetic phase abundance.
+      if (mb_surfaceFieldT) mb_surfaceFieldT.value = reg_surfaceFieldT ? reg_surfaceFieldT.value : "1.45";
+      if (mb_gapMm) mb_gapMm.value = reg_gapMm ? reg_gapMm.value : "5";
+      if (mb_d50um) mb_d50um.value = reg_d50um ? reg_d50um.value : "150";
+      if (mb_feFeedPct) mb_feFeedPct.value = reg_magPhasePct ? reg_magPhasePct.value : mb_feFeedPct.value;
+      if (mb_beltSpeed && !mb_beltSpeed.value) mb_beltSpeed.value = "0.20";
+      if (mb_wrapDeg && !mb_wrapDeg.value) mb_wrapDeg.value = "180";
+    }
+
+    function runMagneticBeneficiation(){
+      try {
+        const mFeed = Number(mb_regolithMass.value);
+        const wMagPct = Number(mb_feFeedPct.value);
+        const Bn52 = Number(mb_surfaceFieldT.value);
+        const gapMm = Number(mb_gapMm.value);
+        const d50 = Number(mb_d50um.value);
+        const beltSpeed = Number(mb_beltSpeed.value);
+        const wrapDeg = Number(mb_wrapDeg.value);
+        const entrainFactor = Number(mb_ganguePct.value);
+        const passes = Math.max(1, Math.round(Number(mb_passes.value)));
+
+        if (!(mFeed > 0)) throw new Error("Feed mass must be > 0 g.");
+        if (!(wMagPct >= 0 && wMagPct <= 100)) throw new Error("Feed magnetic phase fraction must be between 0 and 100 wt%.");
+        if (!(Bn52 > 0)) throw new Error("N52 field must be > 0 T.");
+        if (!(gapMm >= 0)) throw new Error("Working gap must be >= 0 mm.");
+        if (!(d50 > 0)) throw new Error("Particle d50 must be > 0 um.");
+        if (!(beltSpeed > 0)) throw new Error("Belt speed must be > 0 m/s.");
+        if (!(wrapDeg > 0 && wrapDeg <= 270)) throw new Error("Wrap angle must be in (0,270] degrees.");
+        if (!(entrainFactor >= 0 && entrainFactor <= 1)) throw new Error("Gangue entrainment factor must be between 0 and 1.");
+
+        const g0 = 8.0; // mm, empirical N52 field decay length through belt/drum/gap
+        const Beff = Bn52 * Math.exp(-gapMm / g0);
+
+        // Explicit predictive capture model for the belt-over-drum N52 separator.
+        // Each term is bounded to keep eta_cap physical and tunable from real tests later.
+        const fieldTerm = clamp(1 - Math.exp(-2.8 * Beff), 0, 1);
+        const sizeTerm = clamp(1 - Math.exp(-0.012 * d50), 0, 1);
+        const speedTerm = clamp(Math.exp(-1.35 * beltSpeed), 0, 1);
+        const wrapTerm = clamp(wrapDeg / 180.0, 0, 1.5);
+        const singlePassEta = clamp(fieldTerm * sizeTerm * speedTerm * wrapTerm, 0, 0.98);
+        const etaCap = 1 - Math.pow(1 - singlePassEta, passes);
+
+        const wMag = wMagPct / 100.0;
+        const mMagAvailable = mFeed * wMag;
+        const mMagCaptured = mMagAvailable * etaCap;
+
+        // Entrained non-magnetic gangue is predicted from the non-magnetic feed fraction.
+        // Fine particles entrain more strongly; coarse particles entrain less.
+        const fineEntrainTerm = Math.exp(-0.006 * d50);
+        const mGangueEntrained = mFeed * (1 - wMag) * entrainFactor * fineEntrainTerm;
+
+        const mMagBin = clamp(mMagCaptured + mGangueEntrained, 0, mFeed);
+        const mNonMagBin = Math.max(0, mFeed - mMagBin);
+        const mMagRemaining = Math.max(0, mMagAvailable - mMagCaptured);
+        const mGangueRejected = Math.max(0, mNonMagBin - mMagRemaining);
+        const magBinMagPct = mMagBin > 0 ? 100.0 * mMagCaptured / mMagBin : 0;
+        const magBinGanguePct = mMagBin > 0 ? 100.0 * mGangueEntrained / mMagBin : 0;
+        const nonMagBinMagPct = mNonMagBin > 0 ? 100.0 * mMagRemaining / mNonMagBin : 0;
+        const nonMagBinGanguePct = mNonMagBin > 0 ? 100.0 * mGangueRejected / mNonMagBin : 0;
+        const recoveryPct = mMagAvailable > 0 ? 100.0 * mMagCaptured / mMagAvailable : 0;
+        const massRecoveryPct = 100.0 * mMagBin / mFeed;
+        const upgrade = wMagPct > 0 ? (magBinMagPct / wMagPct) : 0;
+
+        if (mb_magRecoveryPct) mb_magRecoveryPct.value = massRecoveryPct.toFixed(3);
+
+        let usefulness = "Produces a modest magnetic-bin concentrate while rejecting non-magnetic material.";
+        if (upgrade >= 1.8) usefulness = "Produces a strongly upgraded magnetic-bin concentrate, improving steel precursor quality and rejecting substantial gangue.";
+        else if (upgrade >= 1.35) usefulness = "Produces a meaningfully upgraded magnetic-bin concentrate for downstream carbothermal reduction.";
+
+        benefState.ran = true;
+        benefState.use = Boolean(mb_forwardToP2.checked);
+        benefState.stream = mb_streamForTests ? mb_streamForTests.value : "magnetic";
+        benefState.mFeed = mFeed;
+        benefState.mConc = mMagBin;
+        benefState.mNonMagBin = mNonMagBin;
+        benefState.feFeedPct = wMagPct;
+        benefState.feConcPct = magBinMagPct;
+        benefState.nonMagMagPct = nonMagBinMagPct;
+        benefState.feRichMass = mMagCaptured;
+        benefState.mMagRemaining = mMagRemaining;
+        benefState.mGangueEntrained = mGangueEntrained;
+        benefState.mGangueRejected = mGangueRejected;
+        benefState.upgrade = upgrade;
+
+        mb_out.textContent = `================ N52 MAGNETIC DRUM BENEFICIATION ================
+Feed / separator inputs
+  Bulk feed mass [g]:             ${mFeed.toFixed(3)}
+  Magnetic phase in feed [wt%]:   ${wMagPct.toFixed(2)}
+  N52 field at drum face [T]:     ${Bn52.toFixed(3)}
+  Gap through drum/belt/air [mm]: ${gapMm.toFixed(2)}
+  Particle d50 [um]:              ${d50.toFixed(1)}
+  Belt speed [m/s]:               ${beltSpeed.toFixed(3)}
+  Drum wrap angle [deg]:          ${wrapDeg.toFixed(1)}
+  Passes [-]:                     ${passes}
+
+Predicted separator variables
+  B_eff [T]:                      ${Beff.toFixed(4)}
+  Single-pass eta_cap [-]:        ${singlePassEta.toFixed(4)}
+  Total eta_cap [-]:              ${etaCap.toFixed(4)}
+  Magnetic material available [g]: ${mMagAvailable.toFixed(3)}
+
+Predicted separated streams
+  Magnetic-bin output [g]:        ${mMagBin.toFixed(3)}
+  Non-magnetic-bin output [g]:    ${mNonMagBin.toFixed(3)}
+  Captured magnetic material [g]: ${mMagCaptured.toFixed(3)}
+  Magnetic material left in non-magnetic bin [g]: ${mMagRemaining.toFixed(3)}
+  Entrained gangue in magnetic bin [g]: ${mGangueEntrained.toFixed(3)}
+  Rejected gangue in non-magnetic bin [g]: ${mGangueRejected.toFixed(3)}
+
+Magnetic-bin quality
+  Magnetic recovery [%]:          ${recoveryPct.toFixed(2)}
+  Magnetic-bin mass recovery [%]: ${massRecoveryPct.toFixed(2)}
+  Magnetic-bin magnetic content [wt%]: ${magBinMagPct.toFixed(2)}
+  Magnetic-bin gangue content [wt%]:   ${magBinGanguePct.toFixed(2)}
+  Upgrade factor [-]:             ${upgrade.toFixed(3)}
+
+Non-magnetic-bin quality
+  Non-magnetic-bin magnetic content [wt%]: ${nonMagBinMagPct.toFixed(2)}
+  Non-magnetic-bin gangue content [wt%]:   ${nonMagBinGanguePct.toFixed(2)}
+
+Downstream test basis
+  Selected stream: ${getProcessBasisLabel()}
+  ${benefState.use ? `Downstream workflow regolith basis updated to selected stream mass: ${Number(getEffectiveRegolithBasis()).toFixed(3)} g.` : "No beneficiation stream forwarded; downstream workflow keeps its manually entered regolith basis."}
+
+Downstream interpretation
+  ${usefulness}
+=================================================================`;
+
+        syncBeneficiationToPart2();
+        refreshPart3GatePreview();
+      } catch (e) {
+        benefState.ran = false;
+        benefState.use = false;
+        mb_out.textContent = `ERROR: ${e.message}`;
+      }
+    }
+
+    function refreshCharToPart2(){
+      const mCharEff = getEffectiveCharMass();
+      if (!Number.isFinite(mCharEff)){
+        p2_charMass.value = "Run Part 1 first";
+        return;
+      }
+      p2_charMass.value = fmt(mCharEff, 6);
+    }
+
+function getOxideObj(){
+  return {
+    SiO2:  Number(ox_SiO2.value),
+    Al2O3: Number(ox_Al2O3.value),
+    FeO:   Number(ox_FeO.value),
+    Fe2O3: Number(ox_Fe2O3.value),
+    CaO:   Number(ox_CaO.value),
+    MgO:   Number(ox_MgO.value),
+    TiO2:  Number(ox_TiO2.value),
+    Na2O:  Number(ox_Na2O.value),
+    K2O:   Number(ox_K2O.value),
+    MnO:   Number(ox_MnO.value),
+    P2O5:  Number(ox_P2O5.value),
+    Cr2O3: Number(ox_Cr2O3.value),
+  };
+}
+
+function getEffectiveOxideObjForProcess(){
+  const base = getOxideObj();
+  const stream = getSelectedBeneficiationStream();
+  if (!stream) return base;
+
+  const magneticKeys = ["FeO", "Fe2O3", "TiO2"];
+  const magneticSum = magneticKeys.reduce((a,k)=>a + Number(base[k] || 0), 0);
+  const gangueKeys = Object.keys(base).filter(k => !magneticKeys.includes(k));
+  const gangueSum = gangueKeys.reduce((a,k)=>a + Number(base[k] || 0), 0);
+
+  const mStream = Number(stream.mass);
+  const mMag = Math.max(0, Number(stream.magneticMass || 0));
+  const mGangue = Math.max(0, Number(stream.gangueMass || 0));
+  if (!(mStream > 0)) return base;
+
+  const out = {};
+  for (const k of magneticKeys){
+    const share = magneticSum > 0 ? Number(base[k] || 0) / magneticSum : 0;
+    out[k] = 100.0 * (mMag * share) / mStream;
+  }
+  for (const k of gangueKeys){
+    const share = gangueSum > 0 ? Number(base[k] || 0) / gangueSum : 0;
+    out[k] = 100.0 * (mGangue * share) / mStream;
+  }
+  return out;
+}
+
+function getProcessBasisLabel(){
+  const stream = getSelectedBeneficiationStream();
+  return stream ? stream.label : "Manual / unbeneficiated regolith basis";
+}
+
+function updateOxideSum(){
+  const ox = getOxideObj();
+  const s = Object.values(ox).reduce((a,b)=>a+b, 0);
+  ox_sum.value = Number.isFinite(s) ? s.toFixed(2) : "—";
+  return s;
+}
+
+function calcMagneticMaterialFromOxides(){
+  const mReg = Number(p2_regolithBasis.value);
+  const loiPct = Number(p2_loiPct ? p2_loiPct.value : 0);
+  const ox = getOxideObj();
+  const oxSum = updateOxideSum();
+
+  if (!(mReg > 0)) {
+    reg_magOut.textContent = "ERROR: Regolith quantity must be > 0 g.";
+    return;
+  }
+  if (!(loiPct >= 0 && loiPct <= 50)) {
+    reg_magOut.textContent = "ERROR: LOI/moisture correction must be between 0 and 50 wt%.";
+    return;
+  }
+
+  const mDry = mReg * (1 - loiPct / 100.0);
+
+  // Magnetic material proxy:
+  // FeO + Fe2O3 represent iron-bearing oxides; TiO2 is included because lunar ilmenite
+  // is commonly represented in oxide tables through FeO + TiO2 components.
+  const wFeO = Number(ox.FeO || 0);
+  const wFe2O3 = Number(ox.Fe2O3 || 0);
+  const wTiO2 = Number(ox.TiO2 || 0);
+  const wMagProxy = wFeO + wFe2O3 + wTiO2;
+
+  const mFeO = mDry * wFeO / 100.0;
+  const mFe2O3 = mDry * wFe2O3 / 100.0;
+  const mTiO2 = mDry * wTiO2 / 100.0;
+  const mMagProxy = mFeO + mFe2O3 + mTiO2;
+
+  const dryMagPct = mDry > 0 ? 100.0 * mMagProxy / mDry : NaN;
+  const loadedMagPct = mReg > 0 ? 100.0 * mMagProxy / mReg : NaN;
+
+  // Feed the result into the N52 beneficiation section.
+  if (reg_magPhasePct) reg_magPhasePct.value = dryMagPct.toFixed(3);
+  if (mb_feFeedPct) mb_feFeedPct.value = dryMagPct.toFixed(3);
+  if (mb_regolithMass) mb_regolithMass.value = mDry.toFixed(3);
+
+  reg_magOut.textContent =
+`================ PART 1 MAGNETIC MATERIAL ESTIMATE ================
+Regolith quantity as loaded [g]:     ${mReg.toFixed(3)}
+LOI / moisture correction [wt%]:     ${loiPct.toFixed(3)}
+Dry regolith basis [g]:              ${mDry.toFixed(3)}
+Oxide wt% sum [-]:                    ${Number.isFinite(oxSum) ? oxSum.toFixed(2) : "N/A"}
+
+Magnetic material proxy from oxide table
+  FeO [wt%]:                         ${wFeO.toFixed(3)}
+  Fe₂O₃ [wt%]:                       ${wFe2O3.toFixed(3)}
+  TiO₂ [wt%]:                        ${wTiO2.toFixed(3)}
+  Proxy wt% on dry basis:            ${dryMagPct.toFixed(3)}
+
+Mass contributions
+  FeO mass [g]:                      ${mFeO.toFixed(3)}
+  Fe₂O₃ mass [g]:                    ${mFe2O3.toFixed(3)}
+  TiO₂ mass [g]:                     ${mTiO2.toFixed(3)}
+  Total magnetic proxy mass [g]:     ${mMagProxy.toFixed(3)}
+
+Forwarded to Part 2
+  Magnetic fraction input [wt%]:     ${dryMagPct.toFixed(3)}
+  N52 beneficiation feed mass [g]:   ${mDry.toFixed(3)}
+
+Note: This is a pre-beneficiation magnetic-material proxy based on FeO + Fe₂O₃ + TiO₂.
+Actual captured concentrate is calculated in Part 2 using the N52 magnetic separation inputs.
+===================================================================`;
+}
+
+/* === ADD THIS FUNCTION (NEW) === */
+
+function setOxideTableFromPreset(key){
+  const preset = SIMULANT_OXIDES[key];
+
+  const oxideInputs = [
+    ox_SiO2, ox_Al2O3, ox_FeO, ox_Fe2O3,
+    ox_CaO, ox_MgO, ox_TiO2, ox_Na2O,
+    ox_K2O, ox_MnO, ox_P2O5, ox_Cr2O3
+  ];
+
+  // Custom = editable, no overwrite
+  if (!preset){
+    oxideInputs.forEach(el => el.disabled = false);
+    updateOxideSum();
+    return;
+  }
+
+  // Preset = overwrite + lock
+  const sum = Object.values(preset).reduce((a,b)=>a+b, 0);
+  const scale = (sum > 0) ? 100.0 / sum : 1.0;
+
+  ox_SiO2.value  = (preset.SiO2  * scale).toFixed(2);
+  ox_Al2O3.value = (preset.Al2O3 * scale).toFixed(2);
+  ox_FeO.value   = (preset.FeO   * scale).toFixed(2);
+  ox_Fe2O3.value = (preset.Fe2O3 * scale).toFixed(2);
+  ox_CaO.value   = (preset.CaO   * scale).toFixed(2);
+  ox_MgO.value   = (preset.MgO   * scale).toFixed(2);
+  ox_TiO2.value  = (preset.TiO2  * scale).toFixed(2);
+  ox_Na2O.value  = (preset.Na2O  * scale).toFixed(2);
+  ox_K2O.value   = (preset.K2O   * scale).toFixed(2);
+  ox_MnO.value   = (preset.MnO   * scale).toFixed(2);
+  ox_P2O5.value  = (preset.P2O5  * scale).toFixed(2);
+  ox_Cr2O3.value = (preset.Cr2O3 * scale).toFixed(2);
+
+  // ---- rounding fix: force 100.00 exactly ----
+  const resid =
+    100.00 - (
+      Number(ox_SiO2.value) + Number(ox_Al2O3.value) + Number(ox_FeO.value) +
+      Number(ox_Fe2O3.value) + Number(ox_CaO.value) + Number(ox_MgO.value) +
+      Number(ox_TiO2.value) + Number(ox_Na2O.value) + Number(ox_K2O.value) +
+      Number(ox_MnO.value) + Number(ox_P2O5.value) + Number(ox_Cr2O3.value)
+    );
+
+  ox_SiO2.value = (Number(ox_SiO2.value) + resid).toFixed(2);
+
+  oxideInputs.forEach(el => el.disabled = true);
+
+  updateOxideSum();
+}
+
+
+
+
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+    }
+
+    function getBlendFeedstockName(){
+      if (materialPreset.value !== "blend") return PRESETS[materialPreset.value]?.name || "Unknown";
+      try{
+        const blend = computeBlendFeedstock();
+        const active = blend.components
+          .filter(c => c.mWet > 0)
+          .map(c => `${c.name} ${c.mWet.toFixed(1)} g`);
+        return active.length ? `Mixed feedstock blend (${active.join(" + ")})` : "Mixed feedstock blend";
+      } catch {
+        return "Mixed feedstock blend";
+      }
+    }
+
+    function getInputsForRun(){
+      const presetKey = materialPreset.value;
+      const feedstockName = presetKey === "blend" ? getBlendFeedstockName() : (PRESETS[presetKey]?.name || "Unknown");
+
+      const A1   = Number(A1input.value);
+      const Ea1  = Number(Ea1input.value);
+      const mass = Number(massInput.value);
+      const dt   = Number(dtInput.value);
+
+      const yChar = Number(yCharInput.value);
+      const yCond = Number(yCondInput.value);
+      const yGas  = Number(yGasInput.value);
+      const sumY  = updateYieldSum();
+
+      const T0 = Number(T0input.value);
+      const T1 = Number(T1input.value);
+      const ramp1 = Number(ramp1Input.value);
+      const hold1 = Number(hold1Input.value);
+
+      const T2 = Number(T2input.value);
+      const ramp2 = Number(ramp2Input.value);
+      const hold2 = Number(hold2Input.value);
+
+      if (!(A1 > 0)) throw new Error("A₁ must be > 0");
+      if (!(Ea1 > 0)) throw new Error("Eₐ must be > 0");
+      if (!(mass > 0)) throw new Error("Dry reactive mass must be > 0");
+      if (!(dt > 0)) throw new Error("Δt must be > 0");
+      if (hold1 < 0 || hold2 < 0) throw new Error("Hold times must be ≥ 0");
+      if (!(ramp1 > 0) || !(ramp2 > 0)) throw new Error("Ramp rates must be > 0");
+      if (Math.abs(sumY - 1.0) > 1e-6) throw new Error("Yield fractions must sum to 1.000000 (±1e-6)");
+
+      const ctrlStep   = Number(ctrlStepInput.value);
+      const ctrlUpdate = Number(ctrlUpdateInput.value);
+      const Cfurn      = Number(CfurnInput.value);
+      const Cload      = Number(CloadInput.value);
+      const tauCham    = Number(tauChamInput.value);
+      const tauSamp    = Number(tauSampInput.value);
+      const maxCool    = Number(maxCoolInput.value);
+
+      if (!(ctrlStep > 0)) throw new Error("Controller step size must be > 0");
+      if (!(ctrlUpdate > 0)) throw new Error("Controller update period must be > 0");
+      if (!(Cfurn > 0)) throw new Error("Furnace thermal mass must be > 0");
+      if (Cload < 0) throw new Error("Load thermal mass must be ≥ 0");
+      if (!(tauCham > 0)) throw new Error("τ_chamber must be > 0");
+      if (!(tauSamp > 0)) throw new Error("τ_sample must be > 0");
+      if (maxCool < 0) throw new Error("Max passive cooling rate must be ≥ 0");
+
+      const atmosphere = atmosphereInput ? atmosphereInput.value : "Ar";
+      const vacuumPa = (atmosphere === "vacuum" && vacuumPaInput) ? Number(vacuumPaInput.value) : null;
+      if (atmosphere === "vacuum" && !(vacuumPa >= 0)) throw new Error("Chamber pressure under vacuum [Pa] must be ≥ 0.");
+
+      return {
+        presetKey, feedstockName,
+        A1, Ea1, mass, dt,
+        yChar, yCond, yGas,
+        T0, T1, ramp1, hold1, T2, ramp2, hold2,
+        mode: "realistic",
+        atmosphere, vacuumPa,
+        ctrlStep, ctrlUpdate, Cfurn, Cload, tauCham, tauSamp, maxCool
+      };
+    }
+
+    function plannedCycleTimeSec(){
+      const T0 = Number(T0input.value);
+      const T1 = Number(T1input.value);
+      const T2 = Number(T2input.value);
+      const ramp1 = Number(ramp1Input.value);
+      const ramp2 = Number(ramp2Input.value);
+      const hold1 = Number(hold1Input.value);
+      const hold2 = Number(hold2Input.value);
+
+      if (!(ramp1 > 0) || !(ramp2 > 0)) return NaN;
+
+      const tr1 = 60.0 * (Math.abs(T1 - T0) / ramp1);
+      const tr2 = 60.0 * (Math.abs(T2 - T1) / ramp2);
+      return tr1 + hold1 + tr2 + hold2;
+    }
+
+    function refreshPart4ComputedTimes(){
+      const total = plannedCycleTimeSec();
+      p4_tTotal.value = Number.isFinite(total) ? total.toFixed(0) : "—";
+
+      const pct = clamp(Number(p4_pctCycle.value), 0, 100);
+      const tStartAuto = Number.isFinite(total) ? (pct/100.0)*total : NaN;
+      p4_tStartAuto.value = Number.isFinite(tStartAuto) ? tStartAuto.toFixed(0) : "—";
+
+      const locked = p4_lockToPct.checked;
+      p4_tStart.disabled = locked;
+      if (locked && Number.isFinite(tStartAuto)) {
+        p4_tStart.value = String(Math.round(tStartAuto));
+      }
+    }
+
+    function applyStandardValues(){
+      p4_pctCycle.value = "50";
+      p4_tDur.value = "300";
+      p4_backupPct.value = "0";
+      p4_coolMult.value = "1.0";
+      p4_lockToPct.checked = true;
+      refreshPart4ComputedTimes();
+    }
+
+    function unlockForCustom(){
+      p4_lockToPct.checked = false;
+      refreshPart4ComputedTimes();
+    }
+
+    function simulatePyrolysisWithThermal(opts, outage){
+      const {
+        A1, Ea1, mass, dt,
+        yChar, yCond, yGas,
+        T0, T1, ramp1, hold1, T2, ramp2, hold2,
+        ctrlStep, ctrlUpdate, Cfurn, Cload, tauCham, tauSamp, maxCool
+      } = opts;
+
+      let alpha = 0;
+      let mChar = 0, mCond = 0, mGasM = 0;
+
+      let Tset = T0;
+      let Tcmd = T0;
+      let Tch  = T0;
+      let Ts   = T0;
+      let ctrlT = 0;
+
+      let Tpeak = T0;
+      let tAbove500 = 0;
+      let tAbove700 = 0;
+
+      let t = 0;
+
+      const outageOn = (outage && outage.tDur > 0);
+
+      function inOutage(tt){
+        if (!outageOn) return false;
+        return (tt >= outage.tStart) && (tt <= (outage.tStart + outage.tDur));
+      }
+
+      function stepOnce(){
+        const outNow = inOutage(t);
+        const pLimit = outNow ? (P_MAX_W * outage.powerFrac) : P_MAX_W;
+        const coolMult = outNow ? outage.coolMult : 1.0;
+
+        Tset = clamp(Tset, -273, T_DESIGN_C);
+
+        ctrlT += dt;
+        if (ctrlT >= ctrlUpdate){
+          ctrlT = 0;
+          Tcmd = roundToStep(Tset, ctrlStep);
+        }
+
+        const dTideal = ((Tcmd - Tch) / tauCham) * dt;
+        const Ctot = Cfurn + Cload;
+
+        const maxHeat = (pLimit / Ctot) * dt;
+        const maxCoolStep = ((maxCool * coolMult) / 60.0) * dt;
+
+        let dT = dTideal;
+        if (dT >  maxHeat) dT =  maxHeat;
+        if (dT < -maxCoolStep) dT = -maxCoolStep;
+
+        Tch = Tch + dT;
+        Tch = clamp(Tch, -273, T_OP_MAX_C);
+
+        const dTs = ((Tch - Ts) / tauSamp) * dt;
+        Ts = Ts + dTs;
+
+        if (Ts > Tpeak) Tpeak = Ts;
+        if (Ts >= 500) tAbove500 += dt;
+        if (Ts >= 700) tAbove700 += dt;
+
+        const TK = Ts + 273.15;
+        const k1 = A1 * Math.exp(-Ea1 / (R * TK));
+
+        let dA = k1 * (1 - alpha) * dt;
+        if (dA < 0) dA = 0;
+        if (alpha + dA > 1) dA = 1 - alpha;
+
+        const dM = dA * mass;
+        mChar += yChar * dM;
+        mCond += yCond * dM;
+        mGasM += yGas  * dM;
+
+        alpha += dA;
+        t += dt;
+      }
+
+      function rampTo(targetC, rateCmin){
+        const dir = targetC >= Tset ? 1 : -1;
+        const dps = rateCmin / 60.0;
+        let guard = 0;
+        while ((dir === 1 && Tset < targetC) || (dir === -1 && Tset > targetC)){
+          stepOnce();
+          Tset = Tset + dir * dps * dt;
+          if (alpha >= 0.999999) break;
+          if (++guard > 20000000) throw new Error("Ramp loop safety stop (dt/ramp too extreme)");
+        }
+        Tset = targetC;
+      }
+
+      function holdFor(seconds){
+        const N = Math.round(seconds / dt);
+        for (let i=0; i<N; i++){
+          stepOnce();
+          if (alpha >= 0.999999) break;
+          if (i > 20000000) throw new Error("Hold loop safety stop (dt/hold too extreme)");
+        }
+      }
+
+      rampTo(T1, ramp1);
+      holdFor(hold1);
+      rampTo(T2, ramp2);
+      holdFor(hold2);
+
+      return { alpha, mChar, mCond, mGas: mGasM, Tpeak, t500: tAbove500, t700: tAbove700, tEnd: t };
+    }
+
+    function runPyrolysisNominal(){
+      output.textContent = "Running…";
+      try {
+        const opts = getInputsForRun();
+        const res = simulatePyrolysisWithThermal(opts, null);
+
+        const sumMass = res.mChar + res.mCond + res.mGas;
+        const expected = res.alpha * opts.mass;
+        const unreacted = (1 - res.alpha) * opts.mass;
+
+        output.textContent =
+`================ FINAL RESULTS ================
+Feedstock:               ${opts.feedstockName}
+Model baseline:          realistic furnace
+Atmosphere:              ${opts.atmosphere === "vacuum" ? `Vacuum (${opts.vacuumPa} Pa)` : (opts.atmosphere === "N2" ? "N₂" : opts.atmosphere)}
+Final Conversion α:      ${res.alpha.toFixed(9)}
+Char Mass [g]:           ${res.mChar.toFixed(6)}
+Condensables Mass [g]:   ${res.mCond.toFixed(6)}
+Permanent Gas Mass [g]:  ${res.mGas.toFixed(6)}
+
+Mass Check (sum) [g]:    ${sumMass.toFixed(6)}
+Expected (α × mass) [g]: ${expected.toFixed(6)}
+Unreacted [g]:           ${unreacted.toFixed(6)}
+
+Peak Sample Temp [°C]:   ${res.Tpeak.toFixed(3)}
+Time ≥500°C [s]:         ${Math.round(res.t500)}
+Time ≥700°C [s]:         ${Math.round(res.t700)}
+==============================================`;
+
+        pyroState.ran = true;
+        pyroState.feedstockName = opts.feedstockName;
+        pyroState.mChar = res.mChar;
+        pyroState.mDry = opts.mass;
+        pyroState.alpha = res.alpha;
+        pyroState.mCond = res.mCond;
+        pyroState.mGas = res.mGas;
+
+        refreshCharToPart2();
+        refreshPart3GatePreview();
+        refreshPart4ComputedTimes();
+      } catch (e){
+        output.textContent = `ERROR: ${e.message}`;
+        console.error(e);
+      }
+    }
+
+    function buildRecipe(){
+      const mCharEff = getEffectiveCharMass();
+      if (!Number.isFinite(mCharEff)){
+        fs_output.value = "Run Part 1 (or Part 4) first so char mass is available.";
+        return;
+      }
+
+      const simKey = simulantPreset.value;
+      const simName = `${simKey || "Simulant"} | ${getProcessBasisLabel()}`;
+
+      const basisReg = Number(getEffectiveRegolithBasis());
+      const fC = Number(p2_fCchar.value);
+      const cMult = Number(p2_cMult.value);
+      const Tc = Number(p2_Tc.value);
+      const Pbar = Number(p2_Pbar.value);
+
+      if (!(basisReg > 0)) { fs_output.value = "ERROR: basis regolith mass must be > 0"; return; }
+      if (!(fC > 0 && fC <= 1)) { fs_output.value = "ERROR: char carbon fraction must be in (0,1]"; return; }
+      if (!(cMult > 0)) { fs_output.value = "ERROR: carbon multiplier must be > 0"; return; }
+
+      const ox = getEffectiveOxideObjForProcess();
+      const oxSum = Object.values(ox).reduce((a,b)=>a+Number(b||0), 0);
+      updateOxideSum();
+
+      fs_output.value = buildRecipeText({
+        simulantName: simName,
+        basisReg,
+        charMass: mCharEff,
+        fC, cMult,
+        Tc, Pbar,
+        atmosphere: atmosphereInput ? atmosphereInput.value : "Ar",
+        vacuumPa: vacuumPaInput ? vacuumPaInput.value : null,
+        ox, oxSum
+      });
+    }
+
+    function saveFactSageRun(){
+      const runs = loadRuns();
+
+      const simKey = simulantPreset.value;
+      const simName = `${simKey || "Simulant"} | ${getProcessBasisLabel()}`;
+      const ox = getEffectiveOxideObjForProcess();
+      const oxHash = hashOx(ox);
+
+      const obj = {
+        simulantKey: `${simKey}|${getProcessBasisLabel()}`,
+        simulantName: simName,
+        Tc: Number(p2_Tc.value),
+        Pbar: Number(p2_Pbar.value),
+        regolithBasis: Number(getEffectiveRegolithBasis()),
+        fCchar: Number(p2_fCchar.value),
+        cMult: Number(p2_cMult.value),
+        oxHash,
+        ox,
+        note: String(ox_notes.value || ""),
+        mMetal_g: Number(fs_mMetal.value),
+        wCmetal_wt: Number(fs_wCmetal.value),
+        mSlag_g: Number(fs_mSlag.value),
+        nCO_mol: Number(fs_nCO.value),
+        nCO2_mol: Number(fs_nCO2.value),
+        mCleft_g: Number(fs_mCleft.value),
+        mCinput_g: 0,
+        savedAt: Date.now(),
+      };
+
+      if (!(obj.regolithBasis > 0)) throw new Error("Basis regolith mass must be > 0.");
+      if (!(obj.Tc > -200 && obj.Tc < 3000)) throw new Error("Temperature seems out of range.");
+      if (!(obj.Pbar > 0)) throw new Error("Pressure must be > 0.");
+      if (!(obj.cMult > 0)) throw new Error("Carbon multiplier must be > 0.");
+      if (obj.mMetal_g < 0) throw new Error("Metal mass must be >= 0.");
+
+      const k = runKey(obj);
+      const idx = runs.findIndex(r => runKey(r) === k);
+      if (idx >= 0){
+        obj.mCinput_g = (runs[idx].mCinput_g == null) ? 0 : runs[idx].mCinput_g;
+        runs[idx] = obj;
+      } else {
+        runs.push(obj);
+      }
+
+      saveRuns(runs);
+      refreshRunsUI();
+      refreshPart3GatePreview();
+    }
+
+    function clearAllRuns(){
+      if (!confirm("Delete ALL saved FactSage runs from this browser?")) return;
+      saveRuns([]);
+      refreshRunsUI();
+      fs_steelOut.textContent = "Deleted all saved runs.";
+      calibPill.textContent = "No FactSage data loaded";
+      refreshPart3GatePreview();
+      p3_out.textContent = "Deleted all saved runs.";
+      p3_closestPill.textContent = "No run selected";
+      p3_CgraphiteSaved.value = "—";
+      p3_gatePill.textContent = "Gate: unknown";
+    }
+
+    function refreshRunsUI(){
+      const runs = loadRuns();
+      runCountPill.textContent = `${runs.length} runs`;
+      renderRunsList(runs, fs_runsList);
+      calibPill.textContent = runs.length ? "FactSage runs available" : "No FactSage data loaded";
+    }
+
+    function getPart2Query(){
+      return {
+        simulantKey: `${simulantPreset.value}|${getProcessBasisLabel()}`,
+        Tc: Number(p2_Tc.value),
+        Pbar: Number(p2_Pbar.value),
+        regolithBasis: Number(getEffectiveRegolithBasis()),
+        cMult: Number(p2_cMult.value),
+      };
+    }
+
+    function formatClosestRunShort(best){
+      if (!best) return "Save at least one FactSage run in Part 2.";
+      const cIn = (best.mCinput_g == null) ? NaN : Number(best.mCinput_g);
+      const cInTxt = Number.isFinite(cIn) ? cIn.toFixed(6) : "—";
+      return (
+`Simulant: ${best.simulantName}
+T,P:      ${best.Tc} °C, ${best.Pbar} bar
+Basis:    ${best.regolithBasis} g
+c×:       ${best.cMult}
+C_in:     ${cInTxt} g (graphite input used in FactSage; store it in section B)`
+      );
+    }
+
+    function refreshPart3GatePreview(){
+      p3_cMult.value = String(Number(p2_cMult.value).toFixed(2));
+      p3_regolithProcessed.value = String(Number(getEffectiveRegolithBasis()).toFixed(0));
+
+      const mCharEff = getEffectiveCharMass();
+      const fC = Number(p2_fCchar.value);
+      const cM = Number(p2_cMult.value);
+      const C_av = Number.isFinite(mCharEff) ? (mCharEff * fC * cM) : NaN;
+      p3_Cavail.value = Number.isFinite(C_av) ? C_av.toFixed(6) : "—";
+
+      const runs = loadRuns();
+      if (!runs.length){
+        p3_closestPill.textContent = "No run selected";
+        p3_closestOut.textContent = "No saved FactSage runs. Save at least one run in Part 2.";
+        p3_CgraphiteSaved.value = "—";
+        p3_gatePill.textContent = "Gate: unknown";
+        return;
+      }
+
+      const q = getPart2Query();
+      const best = closestRun(runs, q);
+      if (!best){
+        p3_closestPill.textContent = "No run selected";
+        p3_closestOut.textContent = "No saved runs for this simulant. Save a run in Part 2 for this simulant.";
+        p3_CgraphiteSaved.value = "—";
+        p3_gatePill.textContent = "Gate: unknown";
+        return;
+      }
+
+      p3_closestPill.textContent = "Closest run selected";
+      p3_closestOut.textContent = formatClosestRunShort(best);
+
+      const cSaved = (best.mCinput_g == null) ? NaN : Number(best.mCinput_g);
+      p3_CgraphiteSaved.value = Number.isFinite(cSaved) ? cSaved.toFixed(6) : "—";
+
+      if (!Number.isFinite(C_av)){
+        p3_gatePill.textContent = "Gate: unknown";
+        return;
+      }
+      if (!Number.isFinite(cSaved) || cSaved <= 0){
+        p3_gatePill.textContent = "Gate: store C_in";
+        return;
+      }
+      const C_req_scaled = (cSaved / Number(best.regolithBasis)) * Number(getEffectiveRegolithBasis());
+      const deficit = C_req_scaled - C_av;
+      p3_gatePill.textContent = (deficit > 1e-9) ? "Gate: OFF-NOMINAL deficit" : "Gate: nominal (sufficient C)";
+    }
+
+    function updateClosestRunCarbon(newValOrNull){
+      const runs = loadRuns();
+      if (!runs.length) throw new Error("No saved runs.");
+
+      const q = getPart2Query();
+      const best = closestRun(runs, q);
+      if (!best) throw new Error("No closest run found for current settings.");
+
+      const idx = runs.findIndex(r => runKey(r) === runKey(best));
+      if (idx < 0) throw new Error("Internal error locating the run to update.");
+
+      if (newValOrNull === null){
+        runs[idx].mCinput_g = 0;
+      } else {
+        const v = Number(newValOrNull);
+        if (!(v >= 0)) throw new Error("C(graphite) must be ≥ 0.");
+        runs[idx].mCinput_g = v;
+      }
+
+      runs[idx].savedAt = Date.now();
+      saveRuns(runs);
+      refreshRunsUI();
+      refreshPart3GatePreview();
+    }
+
+    function calcCarbonDeficit(){
+      const runs = loadRuns();
+      if (!runs.length){
+        p3_out.textContent = "No saved FactSage runs. Save at least one run in Part 2.";
+        return;
+      }
+
+      const mCharEff = getEffectiveCharMass();
+      if (!Number.isFinite(mCharEff)){
+        p3_out.textContent = "Run Part 1 (or Part 4) first so char mass is available.";
+        return;
+      }
+
+      const q = getPart2Query();
+      const best = closestRun(runs, q);
+      if (!best){
+        p3_out.textContent = "No saved runs for this simulant. Save a run in Part 2 for this simulant.";
+        return;
+      }
+
+      const C_in = Number(best.mCinput_g);
+      if (!(C_in > 0)){
+        p3_out.textContent = "Closest run has no stored C(graphite) input. Store it in section B, then calculate.";
+        return;
+      }
+
+      const fC = Number(p2_fCchar.value);
+      const cMult = Number(p2_cMult.value);
+      const regProc = Number(getEffectiveRegolithBasis());
+
+      const fixedCarbonWt = Number(p3_marginPct ? p3_marginPct.value : (fC*100));
+      const ashWt = Number(p3_charUncertaintyPct ? p3_charUncertaintyPct.value : 0);
+      const measuredFixedCarbonFrac = clamp(fixedCarbonWt / 100.0, 0, 1);
+      const ashFrac = clamp(ashWt / 100.0, 0, 1);
+      const C_available = mCharEff * measuredFixedCarbonFrac * cMult;
+      const C_available_ash_corrected = C_available * (1 - ashFrac);
+      const C_required_scaled = (C_in / Number(best.regolithBasis)) * regProc;
+      const deficit = C_required_scaled - C_available_ash_corrected;
+
+      const status = deficit > 0 ? "OFF-NOMINAL (measured carbon deficit vs reference run)" : "NOMINAL (measured carbon sufficient)";
+      p3_out.textContent =
+`================ CARBON DEFICIT GATE =================
+Carbon Source: Measured Process Char
+
+Measured fixed carbon [wt%]:    ${fixedCarbonWt.toFixed(2)}
+Measured char ash/inert [wt%]:  ${ashWt.toFixed(2)}
+C_available measured [g]:       ${C_available.toFixed(6)}
+C_available ash-corrected [g]:  ${C_available_ash_corrected.toFixed(6)}
+C_required scaled [g]:          ${C_required_scaled.toFixed(6)}
+Deficit [g]:                    ${deficit.toFixed(6)}
+Status:                         ${status}
+======================================================`;
+
+      refreshPart3GatePreview();
+    }
+
+    function calcSteelFromFactSage(){
+      const runs = loadRuns();
+      if (!runs.length){
+        fs_steelOut.textContent = "No saved FactSage runs. Import at least one Equilib result first.";
+        refreshPart3GatePreview();
+        return;
+      }
+
+      const mCharEff = getEffectiveCharMass();
+      if (!Number.isFinite(mCharEff)){
+        fs_steelOut.textContent = "Run Part 1 (or Part 4) first so char mass is available.";
+        refreshPart3GatePreview();
+        return;
+      }
+
+      const query = getPart2Query();
+      const best = closestRun(runs, query);
+      if (!best){
+        fs_steelOut.textContent = "No FactSage runs saved for this simulant. Save a run for this simulant first.";
+        refreshPart3GatePreview();
+        return;
+      }
+
+      const fC = Number(p2_fCchar.value);
+      const cMult = Number(p2_cMult.value);
+      const mC_avail = mCharEff * fC * cMult;
+
+      const metalPerReg = (best.mMetal_g / best.regolithBasis);
+      const regolithProcessable = Number(getEffectiveRegolithBasis());
+      const mMetal_scaled = metalPerReg * regolithProcessable;
+      const collectionEff = Number(steel_collectionEff ? steel_collectionEff.value : 100) / 100.0;
+      const slagCarry = Number(steel_slagCarryover ? steel_slagCarryover.value : 0);
+      const targetC = Number(steel_targetC ? steel_targetC.value : NaN);
+      const measuredMetal = Number(steel_measuredMetal ? steel_measuredMetal.value : 0);
+      const mMetal_collected = measuredMetal > 0 ? measuredMetal : (mMetal_scaled * collectionEff);
+
+      const wC = best.wCmetal_wt;
+      const mC_in_metal = (wC/100.0) * mMetal_collected;
+      const cStatus = Number.isFinite(targetC)
+        ? (wC > targetC ? "above target" : (wC < targetC ? "below target" : "at target"))
+        : "target not specified";
+
+      fs_steelOut.textContent =
+`================ FACTSAGE-CALIBRATED RESULT ================
+Process Carbon Source:         Part 1 Nominal
+Char mass used [g]:            ${mCharEff.toFixed(6)}
+Assumed char C fraction [-]:    ${fC.toFixed(3)}
+Carbon multiplier ×:           ${cMult.toFixed(3)}
+Carbon available [g]:          ${mC_avail.toFixed(6)}
+
+Closest saved FactSage run (used for scaling)
+  Simulant:                   ${best.simulantName}
+  T [°C], P [bar]:            ${best.Tc} , ${best.Pbar}
+  Basis regolith [g]:         ${best.regolithBasis}
+  Carbon multiplier ×:        ${best.cMult}
+  Metal mass (FactSage) [g]:  ${best.mMetal_g}
+  Metal C (FactSage) [wt%]:   ${best.wCmetal_wt}
+  Slag mass (FactSage) [g]:   ${best.mSlag_g}
+  CO/CO2 (mol):               ${best.nCO_mol} / ${best.nCO2_mol}
+  Unreacted graphite (g):     ${best.mCleft_g}
+
+Scaled output (metal yield per regolith from closest FactSage run)
+  Metal per regolith [g/g]:   ${(best.mMetal_g/best.regolithBasis).toFixed(6)}
+  Regolith processed [g]:     ${regolithProcessable.toFixed(3)}
+  Equilibrium metal [g]:      ${mMetal_scaled.toFixed(3)}
+  Collection efficiency [%]:   ${(collectionEff*100).toFixed(1)}
+  Collected metal [g]:         ${mMetal_collected.toFixed(3)} ${measuredMetal > 0 ? "(measured)" : "(scaled)"}
+  Carbon in collected metal [g]: ${mC_in_metal.toFixed(3)}   (from FactSage wt% C)
+  Target steel carbon [wt%]:   ${Number.isFinite(targetC) ? targetC.toFixed(2) : "N/A"}
+  Carbon status:              ${cStatus}
+  Slag carryover assumption [%]: ${slagCarry.toFixed(2)}
+============================================================`;
+
+      refreshPart3GatePreview();
+    }
+
+    async function copySteel(){
+      try { await navigator.clipboard.writeText(fs_steelOut.textContent || ""); }
+      catch { alert("Clipboard copy failed. You can select and copy manually."); }
+    }
+
+    function runOutageSimulation(){
+      p4_out.textContent = "Running outage simulation…";
+      try {
+        const opts = getInputsForRun();
+        refreshPart4ComputedTimes();
+
+        const tStart = Number(p4_tStart.value);
+        const tDur = Number(p4_tDur.value);
+        const powerFrac = clamp(Number(p4_backupPct.value)/100.0, 0, 1);
+        const measuredCoolRate = Number(p4_coolMult.value);
+        const baseCoolRate = Number(maxCoolInput.value || 6);
+        const coolMult = baseCoolRate > 0 ? clamp(measuredCoolRate / baseCoolRate, 0, 10.0) : 1.0;
+
+        if (tStart < 0) throw new Error("Outage start time must be ≥ 0.");
+        if (tDur < 0) throw new Error("Outage duration must be ≥ 0.");
+        if (!(measuredCoolRate >= 0)) throw new Error("Measured cooling rate must be ≥ 0.");
+
+        const outage = { tStart, tDur, powerFrac, coolMult };
+        const res = simulatePyrolysisWithThermal(opts, outage);
+
+        outageState.ran = true;
+        outageState.mChar = res.mChar;
+        outageState.mCond = res.mCond;
+        outageState.mGas  = res.mGas;
+        outageState.alpha = res.alpha;
+        outageState.Tpeak = res.Tpeak;
+        outageState.t500 = res.t500;
+        outageState.t700 = res.t700;
+
+        const nominalChar = pyroState.ran ? pyroState.mChar : NaN;
+        const nominalAlpha = pyroState.ran ? pyroState.alpha : NaN;
+        const dChar = Number.isFinite(nominalChar) ? (res.mChar - nominalChar) : NaN;
+        const dAlpha = Number.isFinite(nominalAlpha) ? (res.alpha - nominalAlpha) : NaN;
+
+        const total = plannedCycleTimeSec();
+        const pct = Number.isFinite(total) ? (100.0 * tStart / total) : NaN;
+
+        p4_out.textContent =
+`================ OUTAGE-ADJUSTED PYROLYSIS ================
+Mode:                realistic furnace
+Outage start [s]:     ${tStart.toFixed(0)}   (${Number.isFinite(pct) ? pct.toFixed(1) : "—"} % of planned cycle)
+Outage duration [s]:  ${tDur.toFixed(0)}   (${(tDur/60).toFixed(2)} min)
+Heater during outage: ${(powerFrac*100).toFixed(0)} %
+Measured cooling rate [°C/min]: ${measuredCoolRate.toFixed(2)}
+Cool multiplier vs baseline ×:    ${coolMult.toFixed(2)}
+
+Restart behavior: power restores after outage window; simulation continues to end-of-cycle.
+
+Outage-adjusted results
+Final conversion α:   ${res.alpha.toFixed(9)}
+Char mass [g]:        ${res.mChar.toFixed(6)}
+Condensables [g]:     ${res.mCond.toFixed(6)}
+Gas [g]:              ${res.mGas.toFixed(6)}
+
+Thermal metrics
+Peak sample T [°C]:   ${res.Tpeak.toFixed(3)}
+Time ≥500°C [s]:      ${Math.round(res.t500)}
+Time ≥700°C [s]:      ${Math.round(res.t700)}
+
+Comparison vs Part 1 nominal
+Δα (outage - nominal):   ${Number.isFinite(dAlpha) ? dAlpha.toFixed(9) : "N/A (run Part 1 for comparison)"}
+Δchar [g]:               ${Number.isFinite(dChar) ? dChar.toFixed(6) : "N/A (run Part 1 for comparison)"}
+===========================================================`;
+
+        refreshCharToPart2();
+        refreshPart3GatePreview();
+
+      } catch (e){
+        p4_out.textContent = `ERROR: ${e.message}`;
+        console.error(e);
+      }
+    }
+
+    function runZotekSimulation(){
+      try {
+        const m0 = Number(p6_mass.value);
+        const T = Number(p6_temp.value);
+        const holdMin = Number(p6_hold.value);
+        const P = Number(p6_press.value);
+        const route = p6_route.value;
+        const notes = String(p6_zotekNotes.value || "").trim();
+
+        if (!(m0 > 0)) throw new Error("Zotek input mass must be > 0.");
+        if (!Number.isFinite(T)) throw new Error("Temperature setting must be a number.");
+        if (!(holdMin >= 0)) throw new Error("Hold time must be ≥ 0.");
+        if (!(P >= 0)) throw new Error("Compression pressure must be ≥ 0.");
+
+        let regime = "";
+        let produced = "";
+        let utility = "";
+        let caution = "";
+        let baseRetention = 1.0;
+        let readiness = 0.2;
+
+        if (T < 140){
+          regime = "Below softening window";
+          produced = "PVDF remains largely unchanged and stiff; no meaningful molding or adhesion is produced.";
+          utility = "Useful mainly as stored feedstock or cut inserts, not as a binder between bricks.";
+          caution = "Raise the setpoint if the goal is compression molding or glue-like bonding.";
+          baseRetention = 1.00;
+          readiness = 0.15;
+        } else if (T < 165){
+          regime = "Surface-softened / preform stage";
+          produced = "A softened PVDF body with limited tack and partial conformability.";
+          utility = "Best for preheating before molding, making cushion layers, or forming compliant interface pads.";
+          caution = "Adhesion is limited unless pressure and/or temperature are increased.";
+          baseRetention = 0.995;
+          readiness = 0.40;
+        } else if (T < 185){
+          regime = "Compression-moldable window";
+          produced = "A moldable PVDF matrix suited for pressed shapes, sheets, and interlocking inserts.";
+          utility = "Good for upcycling into compression-molded tiles, liners, or brick-interface shims with moderate bonding capability.";
+          caution = "Works best with sustained pressure and controlled cooling to lock in shape.";
+          baseRetention = 0.99;
+          readiness = 0.75;
+        } else if (T < 230){
+          regime = "Fusion-bonding window";
+          produced = "A highly flowable / fusible PVDF phase capable of wetting surfaces and forming continuous seams.";
+          utility = "Best for glue-like bonding between lunar bricks, seam filling, laminate bonding, or overmolding around inserts.";
+          caution = "Avoid excessive hold times; long exposure can reduce dimensional control even before major degradation begins.";
+          baseRetention = 0.975;
+          readiness = 0.95;
+        } else if (T < 320){
+          regime = "Over-processed / degradation risk";
+          produced = "A partially degraded PVDF output with reduced molecular integrity and less reliable bonding performance.";
+          utility = "May still form a bonded mass, but it is less attractive for structural upcycling because reliability drops.";
+          caution = "Back off the temperature or hold time; this region risks off-gassing and brittle or inconsistent bonded seams.";
+          baseRetention = 0.88;
+          readiness = 0.45;
+        } else {
+          regime = "Thermal decomposition";
+          produced = "Decomposition-dominated output rather than a useful molded PVDF product.";
+          utility = "Not recommended for upcycling as a structural binder or molded part.";
+          caution = "Temperature is too high for the intended Zotek reuse concept.";
+          baseRetention = 0.55;
+          readiness = 0.05;
+        }
+
+        const holdPenalty = T >= 230 ? Math.min(0.25, holdMin * 0.0035) : Math.min(0.03, holdMin * 0.0006);
+        const retention = Math.max(0, baseRetention - holdPenalty);
+        const usableMass = m0 * retention;
+
+        let routeFit = "";
+        if (route === "brick") {
+          routeFit = (T >= 185 && T < 230)
+            ? "Strong match: the selected window is well aligned with brick-to-brick binder / glue use."
+            : (T >= 165 && T < 185)
+              ? "Partial match: it can act as a pressed interlayer, but a slightly hotter setpoint would improve glue-like fusion."
+              : "Weak match: this setting is not ideal for glue-like brick bonding.";
+        } else if (route === "sheet") {
+          routeFit = (T >= 165 && T < 185)
+            ? "Strong match: the setting is well aligned with compression-molded sheets or tiles."
+            : (T >= 185 && T < 230)
+              ? "Usable, but the material may become more flowable than needed for crisp molded sheet geometry."
+              : "Weak match: this setting is not ideal for stable compression-molded sheets.";
+        } else {
+          routeFit = (T >= 165 && T < 230)
+            ? "Good match: the material can be converted into reusable pellets, inserts, or bonding pucks."
+            : "Weak match: this setting is outside the most practical insert/pellet window.";
+        }
+
+        const pressureComment = P < 1
+          ? "Low pressure: shaping and interfacial bonding will be limited."
+          : P < 3
+            ? "Moderate pressure: adequate for basic molding and seam consolidation."
+            : "High pressure: favorable for dense molded parts and tight brick interfaces.";
+
+        const readinessPct = Math.round(Math.max(0, Math.min(1, readiness + (P >= 3 ? 0.05 : 0) - (T >= 230 ? 0.10 : 0))) * 100);
+
+        p6_zotekStatus.value = regime;
+        p6_zotekOut.textContent =
+`================ ZOTEK PVDF SIMULATION ================
+Input mass [g]:            ${m0.toFixed(3)}
+Temperature setting [°C]:  ${T.toFixed(1)}
+Hold time [min]:           ${holdMin.toFixed(1)}
+Compression pressure [MPa]: ${P.toFixed(2)}
+Route selected:            ${p6_route.options[p6_route.selectedIndex].text}
+
+Material state / regime
+  ${regime}
+
+What is produced
+  ${produced}
+
+Projected usable output
+  Retained usable mass [g]: ${usableMass.toFixed(3)}
+  Estimated retained fraction [-]: ${retention.toFixed(3)}
+  Process readiness [%]: ${readinessPct}
+
+Upcycling usefulness
+  ${utility}
+  ${routeFit}
+  ${pressureComment}
+
+Process caution
+  ${caution}
+
+Operator notes
+  ${notes || "No extra notes entered."}
+========================================================`;
+      } catch (e) {
+        p6_zotekStatus.value = "Error";
+        p6_zotekOut.textContent = `ERROR: ${e.message}`;
+      }
+    }
+
+    // ---------- wire events ----------
+    materialPreset.addEventListener("change", applyPreset);
+    wetMass.addEventListener("input", () => computeDryReactiveMass(materialPreset.value));
+    customMoistPct.addEventListener("input", () => computeDryReactiveMass("custom"));
+    customInertFrac.addEventListener("input", () => computeDryReactiveMass("custom"));
+    customAutoNormalize.addEventListener("change", () => computeDryReactiveMass("custom"));
+    [blend_celluloseMass, blend_nitrileMass, blend_polyolefinMass, blend_laminateMass].filter(Boolean).forEach(i => {
+      i.addEventListener("input", () => {
+        if (materialPreset.value === "blend") computeDryReactiveMass("blend");
+      });
+      i.addEventListener("change", () => {
+        if (materialPreset.value === "blend") computeDryReactiveMass("blend");
+      });
+    });
+    [yCharInput,yCondInput,yGasInput].forEach(i => i.addEventListener("input", updateYieldSum));
+
+    if (atmosphereInput){
+      atmosphereInput.addEventListener("change", updateAtmosphereUI);
+    }
+    if (vacuumPaInput){
+      vacuumPaInput.addEventListener("input", updateAtmosphereUI);
+      vacuumPaInput.addEventListener("change", updateAtmosphereUI);
+    }
+
+    [T0input,T1input,T2input,ramp1Input,ramp2Input,hold1Input,hold2Input,dtInput].forEach(el=>{
+      el.addEventListener("input", refreshPart4ComputedTimes);
+      el.addEventListener("change", refreshPart4ComputedTimes);
+    });
+
+// Part 2 numeric inputs still refresh downstream state
+[p2_regolithBasis, p2_fCchar, p2_cMult, p2_Tc, p2_Pbar].forEach(el => {
+  el.addEventListener("input", () => {
+    refreshCharToPart2();
+    refreshPart3GatePreview();
+  });
+  el.addEventListener("change", () => {
+    refreshCharToPart2();
+    refreshPart3GatePreview();
+  });
+});
+
+// Simulant selection: auto-fill oxide table + refresh downstream state
+simulantPreset.addEventListener("change", () => {
+  setOxideTableFromPreset(simulantPreset.value);
+  refreshCharToPart2();
+  refreshPart3GatePreview();
+  if (reg_magOut && reg_magOut.textContent.includes("PART 1 MAGNETIC MATERIAL")) calcMagneticMaterialFromOxides();
+});
+
+// Manual oxide edits: keep sum updated and refresh Part 1 magnetic estimate when available.
+[
+  ox_SiO2, ox_Al2O3, ox_FeO, ox_Fe2O3,
+  ox_CaO, ox_MgO, ox_TiO2, ox_Na2O,
+  ox_K2O, ox_MnO, ox_P2O5, ox_Cr2O3
+].forEach(el => {
+  el.addEventListener("input", () => {
+    updateOxideSum();
+    if (reg_magOut && reg_magOut.textContent.includes("PART 1 MAGNETIC MATERIAL")) calcMagneticMaterialFromOxides();
+  });
+});
+
+if (reg_calcMagBtn) reg_calcMagBtn.addEventListener("click", calcMagneticMaterialFromOxides);
+[p2_regolithBasis, p2_loiPct].filter(Boolean).forEach(el => {
+  el.addEventListener("input", () => {
+    if (reg_magOut && reg_magOut.textContent.includes("PART 1 MAGNETIC MATERIAL")) calcMagneticMaterialFromOxides();
+  });
+});
+
+
+
+    mb_forwardToP2.addEventListener("change", () => {
+      benefState.use = Boolean(mb_forwardToP2.checked) && benefState.ran;
+      syncBeneficiationToPart2();
+      refreshPart3GatePreview();
+    });
+    if (mb_streamForTests) mb_streamForTests.addEventListener("change", () => {
+      benefState.stream = mb_streamForTests.value;
+      benefState.use = Boolean(mb_forwardToP2.checked) && benefState.ran && mb_streamForTests.value !== "manual";
+      syncBeneficiationToPart2();
+      refreshPart3GatePreview();
+      if (benefState.ran) runMagneticBeneficiation();
+    });
+    mb_runBtn.addEventListener("click", runMagneticBeneficiation);
+    mb_regolithMass.addEventListener("input", () => {
+      if (!benefState.ran || !benefState.use) p2_regolithBasis.value = Number(mb_regolithMass.value || 0).toFixed(3);
+      refreshPart3GatePreview();
+    });
+
+    runBtn.addEventListener("click", runPyrolysisNominal);
+
+    fs_buildBtn.addEventListener("click", buildRecipe);
+    fs_downloadBtn.addEventListener("click", () => downloadText("factsage_equilib_inputs.txt", fs_output.value || ""));
+    fs_saveRunBtn.addEventListener("click", () => {
+      try { saveFactSageRun(); } catch (e){ alert(e.message); }
+    });
+    fs_clearRunsBtn.addEventListener("click", clearAllRuns);
+
+    fs_calcSteelBtn.addEventListener("click", calcSteelFromFactSage);
+    fs_copySteelBtn.addEventListener("click", copySteel);
+
+    p3_saveCBtn.addEventListener("click", () => {
+      try { updateClosestRunCarbon(p3_CgraphiteInput.value); } catch (e){ alert(e.message); }
+    });
+    p3_clearCBtn.addEventListener("click", () => {
+      try { updateClosestRunCarbon(null); } catch (e){ alert(e.message); }
+    });
+    p3_calcBtn.addEventListener("click", calcCarbonDeficit);
+
+    // Part 4 controls
+    p4_pctCycle.addEventListener("input", refreshPart4ComputedTimes);
+    p4_lockToPct.addEventListener("change", refreshPart4ComputedTimes);
+    p4_applyNasaBtn.addEventListener("click", applyStandardValues);
+    p4_unlockBtn.addEventListener("click", unlockForCustom);
+
+  
+    p4_runBtn.addEventListener("click", runOutageSimulation);
+    
+        // Part 5 controls
+    p5_forwardChar.addEventListener("change", () => {
+      airLeakState.use = Boolean(p5_forwardChar.checked);
+      refreshCharToPart2();
+      refreshPart3GatePreview();
+      if (airLeakState.ran) p5_statusPill.textContent = airLeakState.use ? "Ran (forwarding char)" : "Ran (not forwarding)";
+    });
+    p5_runBtn.addEventListener("click", runAirIngress);
+    
+// ---------- Section + side-tab navigation ----------
+function scrollToIdWithHeaderOffset(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const header = document.querySelector("header");
+  const headerH = header ? header.getBoundingClientRect().height : 0;
+
+  const y = el.getBoundingClientRect().top + window.pageYOffset - headerH - 10;
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
+
+const appTabs = Array.from(document.querySelectorAll(".appTab"));
+const contentSections = Array.from(document.querySelectorAll(".contentSection"));
+const organicSideTabs = document.getElementById("organicSideTabs");
+
+function setActiveSection(sectionId){
+  contentSections.forEach(sec => sec.classList.toggle("isActive", sec.id === sectionId));
+  appTabs.forEach(btn => btn.classList.toggle("isActive", btn.getAttribute("data-section") === sectionId));
+  if (organicSideTabs) organicSideTabs.style.display = (sectionId === "organicSection") ? "block" : "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+appTabs.forEach(btn => {
+  btn.addEventListener("click", () => setActiveSection(btn.getAttribute("data-section")));
+});
+
+const sideTabs = Array.from(document.querySelectorAll(".sideTab"));
+sideTabs.forEach(btn => {
+  btn.addEventListener("click", () => {
+    setActiveSection("organicSection");
+    const id = btn.getAttribute("data-target");
+    setTimeout(() => scrollToIdWithHeaderOffset(id), 60);
+  });
+});
+    
+    // ---------- init ----------
+updateYieldSum();
+toggleFurnaceUI();
+updateAtmosphereUI();
+applyPreset();
+
+// NEW: set the oxide table from the currently-selected simulant
+setOxideTableFromPreset(simulantPreset.value);
+applyMagneticPreset();
+syncBeneficiationToPart2();
+
+updateOxideSum();
+refreshRunsUI();
+refreshPart4ComputedTimes();
+refreshCharToPart2();
+refreshPart3GatePreview();
+  });
+})();
+</script>
+
+
+</body>
+</html><!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Feedstock Digital Twin – Organic + Zotek</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <!-- KaTeX for LaTeX rendering -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
